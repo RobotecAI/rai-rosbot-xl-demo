@@ -1,0 +1,47 @@
+{
+    "project_name": "RAIHusarionDemo",
+    "version": "1.0.0",
+    "project_id": "{B92901A1-8A58-42F0-82ED-A4E9B43AC789}",
+    "origin": "The primary repo for RAIHusarionDemo goes here: i.e. http://www.mydomain.com",
+    "license": "What license RAIHusarionDemo uses goes here: i.e. https://opensource.org/licenses/Apache-2.0 Or https://opensource.org/licenses/MIT etc.",
+    "display_name": "RAIHusarionDemo",
+    "summary": "A short description of RAIHusarionDemo.",
+    "canonical_tags": [
+        "Project"
+    ],
+    "user_tags": [
+        "RAIHusarionDemo"
+    ],
+    "icon_path": "preview.png",
+    "engine": "o3de",
+    "external_subdirectories": [
+        "Gem"
+    ],
+    "restricted": "RAIHusarionDemo",
+    "gem_names": [
+        "RAIHusarionDemo",
+        "Atom",
+        "AudioSystem",
+        "CameraFramework",
+        "DebugDraw",
+        "DiffuseProbeGrid",
+        "EditorPythonBindings",
+        "EMotionFX",
+        "GameState",
+        "ImGui",
+        "LandscapeCanvas",
+        "LyShine",
+        "MiniAudio",
+        "PhysX",
+        "PrimitiveAssets",
+        "PrefabBuilder",
+        "SaveData",
+        "ScriptCanvasPhysics",
+        "ScriptEvents",
+        "StartingPointInput",
+        "TextureAtlas",
+        "WhiteBox",
+        "RemoteTools"
+    ],
+    "engine_version": "2.3.0"
+}
