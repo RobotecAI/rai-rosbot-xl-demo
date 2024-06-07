@@ -10,6 +10,14 @@ The demo can be successfully run on any robot equipped with the same set of sens
 
 The robot equipped with a microphone can listen to the commands and react accordingly. The demo is limited by the current Generative AI models linked via RAI framework and the robot's sensors. A simple proof-of-concept implementation shows, that robot can move through the room and describe what it sees.
 
+### Screenshots
+
+![Screenshot0](docs/images/husarion.png)
+A sample setup with Husarion robot entering the room. 
+Top left: color and depth images seen by the robot
+Top right: map constructed by the robot based on lidar data
+Bottom: photo of the robot entering the scene
+
 ## Project setup
 
 > **_NOTE:_** This section will be added in the final version of this document.
