@@ -10,18 +10,91 @@ The demo can be successfully run on any robot equipped with the same set of sens
 
 The robot equipped with a microphone can listen to the commands and react accordingly. The demo is limited by the current Generative AI models linked via RAI framework and the robot's sensors. A simple proof-of-concept implementation shows, that robot can move through the room and describe what it sees.
 
+This demo is designed to drive a real robot, but the simulation based on the [RobotVacuumSample demo](https://github.com/o3de/RobotVacuumSample) is provided for quick tests.
+
 ### Screenshots
 
 ![Screenshot0](docs/images/husarion.png)
-A sample setup with Husarion robot entering the room. 
-Top left: color and depth images seen by the robot
-Top right: map constructed by the robot based on lidar data
-Bottom: photo of the robot entering the scene
 
-## Project setup
+A sample setup with a Husarion robot entering the room. 
+Top left: color and depth images seen by the robot;
+Top right: map constructed by the robot based on lidar data;
+Bottom: photo of the robot entering the scene.
+
+![Screenshot1](docs/images/o3deSimulation.png)
+
+Simulation environment using O3DE.
+
+## Starting guide
+
+### Real robot configuration
 
 > **_NOTE:_** This section will be added in the final version of this document.
 
-## Running the simulation
+### Simulation environment configuration
 
-> **_NOTE:_** This section will be added in the final version of this document.
+The simulation environment from [RobotVacuumSample demo](https://github.com/o3de/RobotVacuumSample) is used in this demo. The primary difference lies in the default robot model available. Specifically, the original repository utilized a vacuum cleaner model as its default robot, whereas the current repository has been configured to utilize [Husarion ROSbot XL](https://husarion.com/manuals/rosbot-xl/). A script that pulls the base repository as a submodule and applies a corresponding _Git patch_ is available on the repository. 
+
+The project was tested on Ubuntu 22.04 with ROS 2 Humble. Windows platform is not supported. 
+
+Please follow the instructions below to build the project. The instructions are based on a common base folder: $DEMO_BASE (absolute path). Install [ROS 2 first](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html) and `git-lfs` package to pull the binary files.
+
+1. Install `git-lfs` package and pull the codebase.
+```bash
+sudo apt-get install git-lfs
+cd $DEMO_BASE
+git clone https://github.com/RobotecAI/rai-husarion-demo.git
+cd $DEMO_BASE/rai-husarion-demo
+./setup_submodules.bash
+```
+
+2. Clone O3DE and register the engine
+
+```bash
+cd $DEMO_BASE
+git clone https://github.com/o3de/o3de.git -b stabilization/2409
+cd $DEMO_BASE/o3de
+git lfs install
+git lfs pull
+scripts/o3de.sh register --this-engine
+```
+
+3. Clone and register the ROS2 Gem locally; register the RosRobotSample Gem locally
+
+```bash
+cd $DEMO_BASE
+git clone https://github.com/o3de/o3de-extras.git -b stabilization/2409
+$DEMO_BASE/o3de/scripts/o3de.sh register -gp $DEMO_BASE/o3de-extras/Gems/ROS2
+$DEMO_BASE/o3de/scripts/o3de.sh register -gp $DEMO_BASE/o3de-extras/Gems/RosRobotSample
+```
+
+4. Clone and register the Loft Scene project locally
+
+```bash
+cd $DEMO_BASE
+git clone https://github.com/o3de/loft-arch-vis-sample.git -b main
+cd $DEMO_BASE/loft-arch-vis-sample
+git lfs install
+git lfs pull
+$DEMO_BASE/o3de/scripts/o3de.sh register -gp $DEMO_BASE/loft-arch-vis-sample/Gems/ArchVis
+```
+
+5. Build and run the project
+
+```
+cd $DEMO_BASE/rai-husarion-demo/Project
+cmake -B build/linux -G "Ninja Multi-Config" -DLY_STRIP_DEBUG_SYMBOLS=TRUE -DLY_DISABLE_TEST_MODULES=ON
+cmake --build build/linux --config profile --target RobotVacuumSample Editor RobotVacuumSample.Assets
+$DEMO_BASE/rai-husarion-demo/Project/build/linux/bin/profile/Editor
+```
+
+You might want to check the [readme document](https://github.com/o3de/RobotVacuumSample/blob/development/README.md) of the base repository to find more information.
+
+### Running the simulation
+
+> **_NOTE:_** This section will be added in the final version of this document. Only connection via the Foxglove interface is available now.
+
+- Go to `Examples/navigation` and run `docker compose up` to start the Foxglove server.
+- Open the O3DE project and press play to start the simulation if running the simulated environment.
+
+The Foxglove interface is available via the web browser. Navigate to `localhost:8080/ui` address to navigate the robot.
