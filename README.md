@@ -16,7 +16,7 @@ This demo is designed to drive a real robot, but the simulation based on the [Ro
 
 ![Screenshot0](docs/images/husarion.png)
 
-A sample setup with a Husarion robot entering the room. 
+A sample setup with a Husarion ROSBot XL robot entering the room. 
 Top left: color and depth images seen by the robot;
 Top right: map constructed by the robot based on lidar data;
 Bottom: photo of the robot entering the scene.
@@ -35,7 +35,9 @@ Simulation environment using O3DE.
 
 The simulation environment from [RobotVacuumSample demo](https://github.com/o3de/RobotVacuumSample) is used in this demo. The primary difference lies in the default robot model available. Specifically, the original repository utilized a vacuum cleaner model as its default robot, whereas the current repository has been configured to utilize [Husarion ROSbot XL](https://husarion.com/manuals/rosbot-xl/). A script that pulls the base repository as a submodule and applies a corresponding _Git patch_ is available on the repository. 
 
-The project was tested on Ubuntu 22.04 with ROS 2 Humble. Windows platform is not supported. 
+> **_NOTE:_** Project folder in this repository, which is a git submodule, will be set in a *dirty* git state due to changes applied by the patch.
+
+The project was tested on Ubuntu 22.04 with ROS 2 Humble and Ubuntu 24.04 with ROS 2 Jazzy. Windows platform is not supported. 
 
 Please follow the instructions below to build the project. The instructions are based on a common base folder: $DEMO_BASE (absolute path). Install [ROS 2 first](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html) and `git-lfs` package to pull the binary files.
 
@@ -43,8 +45,8 @@ Please follow the instructions below to build the project. The instructions are 
 ```bash
 sudo apt-get install git-lfs
 cd $DEMO_BASE
-git clone https://github.com/RobotecAI/rai-husarion-demo.git
-cd $DEMO_BASE/rai-husarion-demo
+git clone https://github.com/RobotecAI/rai-rosbot-xl-demo.git
+cd $DEMO_BASE/rai-rosbot-xl-demo
 ./setup_submodules.bash
 ```
 
@@ -82,13 +84,11 @@ $DEMO_BASE/o3de/scripts/o3de.sh register -gp $DEMO_BASE/loft-arch-vis-sample/Gem
 5. Build and run the project
 
 ```
-cd $DEMO_BASE/rai-husarion-demo/Project
+cd $DEMO_BASE/rai-rosbot-xl-demo/Project
 cmake -B build/linux -G "Ninja Multi-Config" -DLY_STRIP_DEBUG_SYMBOLS=TRUE -DLY_DISABLE_TEST_MODULES=ON
-cmake --build build/linux --config profile --target RobotVacuumSample Editor RobotVacuumSample.Assets
-$DEMO_BASE/rai-husarion-demo/Project/build/linux/bin/profile/Editor
+cmake --build build/linux --config profile --target RAIROSBotXLDemo.Assets RAIROSBotXLDemo.GameLauncher
+$DEMO_BASE/rai-rosbot-xl-demo/Project/build/linux/bin/profile/RAIROSBotXLDemo.GameLauncher
 ```
-
-You might want to check the [readme document](https://github.com/o3de/RobotVacuumSample/blob/development/README.md) of the base repository to find more information.
 
 ### Running the simulation
 
