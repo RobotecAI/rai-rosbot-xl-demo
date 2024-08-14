@@ -3,7 +3,7 @@ import os
 
 from setuptools import find_packages, setup
 
-package_name = "husarion_whoami"
+package_name = "rosbot_xl_whoami"
 
 setup(
     name=package_name,
