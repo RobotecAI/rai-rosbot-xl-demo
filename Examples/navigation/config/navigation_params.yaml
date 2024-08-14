@@ -26,9 +26,6 @@ amcl:
     # prevents correct particles from getting down weighted because of unexpected obstacles
     # such as humans
     do_beamskip: false
-    beam_skip_distance: 0.5
-    beam_skip_error_threshold: 0.9
-    beam_skip_threshold: 0.3
 
     lambda_short: 0.1
     laser_likelihood_max_dist: 2.0
@@ -194,10 +191,6 @@ controller_server:
         offset_from_furthest: 4
         threshold_to_consider: 0.5
         max_angle_to_furthest: 1.0
-      # TwirlingCritic:
-      #   enabled: true
-      #   twirling_cost_power: 1
-      #   twirling_cost_weight: 10.0
 
 controller_server_rclcpp_node:
   ros__parameters:
@@ -363,110 +356,6 @@ behavior_server:
     max_rotational_vel: 0.6
     min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
-
-slam_toolbox:
-  ros__parameters:
-
-    # Plugin params
-    solver_plugin: solver_plugins::CeresSolver
-    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
-    ceres_preconditioner: SCHUR_JACOBI
-    ceres_trust_strategy: LEVENBERG_MARQUARDT
-    ceres_dogleg_type: TRADITIONAL_DOGLEG
-    ceres_loss_function: None
-
-    # ROS Parameters
-    odom_frame: odom
-    map_frame: map
-    base_frame: base_link
-    scan_topic: scan
-    use_map_saver: true
-    mode: mapping #localization
-
-    # lifelong params
-    lifelong_search_use_tree: false
-    lifelong_minimum_score: 0.1
-    lifelong_iou_match: 0.85
-    lifelong_node_removal_score: 0.04
-    lifelong_overlap_score_scale: 0.06
-    lifelong_constraint_multiplier: 0.08
-    lifelong_nearby_penalty: 0.001
-    lifelong_candidates_scale: 0.03
-
-    debug_logging: false
-    throttle_scans: 1
-    transform_publish_period: 0.04
-    map_update_interval: 3.0
-    resolution: 0.05
-    max_laser_range: 12.0 #for rastering images
-    minimum_time_interval: 0.5
-    transform_timeout: 0.2
-    tf_buffer_duration: 10.
-    stack_size_to_use: 40000000 #// program needs a larger stack size to serialize large maps
-
-    # General Parameters
-    use_scan_matching: true
-    use_scan_barycenter: true
-    minimum_travel_distance: 0.4
-    minimum_travel_heading: 0.5
-    scan_buffer_size: 10
-    scan_buffer_maximum_scan_distance: 10.0
-    link_match_minimum_response_fine: 0.1
-    link_scan_maximum_distance: 1.5
-    loop_search_maximum_distance: 3.0
-    do_loop_closing: true
-    loop_match_minimum_chain_size: 10
-    loop_match_maximum_variance_coarse: 3.0
-    loop_match_minimum_response_coarse: 0.35
-    loop_match_minimum_response_fine: 0.45
-
-    # Correlation Parameters - Correlation Parameters
-    correlation_search_space_dimension: 0.5
-    correlation_search_space_resolution: 0.01
-    correlation_search_space_smear_deviation: 0.1
-
-    # Correlation Parameters - Loop Closure Parameters
-    loop_search_space_dimension: 8.0
-    loop_search_space_resolution: 0.05
-    loop_search_space_smear_deviation: 0.03
-
-    # Scan Matcher Parameters
-    distance_variance_penalty: 0.5
-    angle_variance_penalty: 1.0
-
-    fine_search_angle_offset: 0.00349
-    coarse_search_angle_offset: 0.349
-    coarse_angle_resolution: 0.0349
-    minimum_angle_penalty: 0.9
-    minimum_distance_penalty: 0.5
-    use_response_expansion: true
-
-waypoint_follower:
-  ros__parameters:
-    loop_rate: 5
-    stop_on_failure: false
-    waypoint_task_executor_plugin: wait_at_waypoint
-    wait_at_waypoint:
-      plugin: nav2_waypoint_follower::WaitAtWaypoint
-      enabled: true
-      waypoint_pause_duration: 200
-
-velocity_smoother:
-  ros__parameters:
-    use_sim_time: true
-
-    smoothing_frequency: 5.0
-    scale_velocities: false
-    feedback: OPEN_LOOP
-    max_velocity: [0.5, 0.0, 1.5]   # Measured: MAX[1.0, 0.0, 3.14] (decreased for safety)
-    min_velocity: [-0.5, 0.0, -1.5] # Measured: MAX[1.0, 0.0, 3.14] (decreased for safety)
-    max_accel: [1.0, 0.0, 3.2]
-    max_decel: [-1.0, 0.0, -3.2]  # Measured
-    # used in the CLOSED_LOOP feedback mode
-    # odom_topic: "odometry/filtered"
-    odom_duration: 0.1
-    deadband_velocity: [0.01, 0.01, 0.1] # Measured
-    velocity_timeout: 1.0
 
 slam_toolbox:
   ros__parameters:
