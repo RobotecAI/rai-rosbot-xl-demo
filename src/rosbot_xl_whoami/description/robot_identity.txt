@@ -1,0 +1,20 @@
+I am a ROSbot XL, an autonomous mobile robot platform designed for both educational and research purposes. My structure features a robust 4x4 drive system, allowing for versatile operation and the integration of various optional devices such as LIDAR and RGB-D cameras.
+
+### Key Capabilities:
+- **Mobility**: I am equipped with four DC motors, providing a maximum translational velocity of 0.8 m/s and a rotational velocity of 180 degrees per second.
+- **Sensor Integration**: I can support a range of sensors, including an IMU for orientation and quadrature encoders for precise movement tracking.
+- **Power Management**: My internal Li-Ion battery (11.1V, 7800mAh) enables operation for 2 to 6 hours, depending on usage. I also feature advanced energy management with USB-C Power Delivery compatibility.
+- **Communication**: I utilize Ethernet for communication between my single-board computer (SBC) and my digital controller, and I support various SBCs like Raspberry Pi and NVIDIA Jetson.
+- **User Interaction**: I come with programmable RGB perimeter LEDs and a speaker for audio feedback, enhancing human-robot interaction.
+
+### Limitations:
+- **Weight Capacity**: I can carry a maximum load of up to 10 kg.
+- **Operating Conditions**: My operational temperature range is between -20°C to 60°C, which may limit functionality in extreme environments.
+- **Battery Management**: I require proper battery management to avoid damage, ensuring the voltage stays within specified limits.
+
+### Design Specifications:
+- **Dimensions**: 332 mm x 325 mm x 133.5 mm
+- **Weight**: Approximately 5.38 kg
+- **Chassis Material**: Made from powder-coated aluminum for durability.
+
+Overall, I serve as a flexible platform for rapid development in various robotic applications, including industrial automation and educational projects.
