@@ -1,0 +1,39 @@
+services:
+  navigation:
+    image: husarion/navigation2:humble-1.1.12-20240123
+    volumes:
+      - ./config/navigation_params.yaml:/params.yaml
+      - ./maps:/maps
+    environment:
+      - SAVE_MAP_PERIOD=${SAVE_MAP_PERIOD}
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+    command: >
+      ros2 launch nav2_bringup bringup_launch.py
+        slam:=${SLAM:-True}
+        params_file:=/params.yaml
+        map:=/maps/map.yaml
+        use_sim_time:=True
+    network_mode: host
+    ipc: host
+
+  foxglove:
+    image: husarion/foxglove:1.84.0
+    ports:
+      - 8080:8080
+      - 8765:8765
+    volumes:
+      - ./config/layout.json:/foxglove/default-layout.json
+    environment:
+      - DS_TYPE=foxglove-websocket
+      - DS_PORT=8765
+      - DS_HOST=foxglove-ds
+      - UI_PORT=8080
+      - DISABLE_CACHE=true
+      - DISABLE_INTERACTION=false
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+
+  foxglove-ds:
+    image: husarion/foxglove-bridge:humble-0.7.3-20240108
+    command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,connectionGraph,assets]
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}

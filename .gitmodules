@@ -1,0 +1,5 @@
+[submodule "Project"]
+	path = Project
+	url = https://github.com/o3de/RobotVacuumSample.git
+        branch = development
+        ignore = dirty
