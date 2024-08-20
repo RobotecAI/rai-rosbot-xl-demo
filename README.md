@@ -58,6 +58,7 @@ git clone https://github.com/o3de/o3de.git -b stabilization/2409
 cd $DEMO_BASE/o3de
 git lfs install
 git lfs pull
+python/get_python.sh
 scripts/o3de.sh register --this-engine
 ```
 
