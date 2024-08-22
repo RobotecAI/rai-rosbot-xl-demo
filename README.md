@@ -93,9 +93,10 @@ $DEMO_BASE/rai-rosbot-xl-demo/Project/build/linux/bin/profile/RAIROSBotXLDemo.Ga
 
 ### Running the simulation
 
-> **_NOTE:_** This section will be added in the final version of this document. Only connection via the Foxglove interface is available now.
+Three scripts starting the simulation and the configuration are added to this repository:
+1. `run-game.bash`: a bash script starting the game.
+2. `run-nav.bash`: a bash script starting the navigation stack.
+3. `run-rviz.bash`: a bash script starting RViz software to interface the navigation. 
 
-- Go to `Examples/navigation` and run `docker compose up` to start the Foxglove server.
-- Open the O3DE project and press play to start the simulation if running the simulated environment.
-
-The Foxglove interface is available via the web browser. Navigate to `localhost:8080/ui` address to navigate the robot.
+Start all three scripts in three separate shells and give the navigation goal in RViz window.
+ 
