@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index c176865..8a708bd 100644
+index c176865..b4cd5e9 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -38,7 +38,7 @@ if(NOT PROJECT_NAME)
@@ -12,7 +12,7 @@ index c176865..8a708bd 100644
          VERSION 1.0.0.0
      )
 diff --git a/Levels/Loft/Loft.prefab b/Levels/Loft/Loft.prefab
-index 84d0bfa..60e26f0 100644
+index 84d0bfa..638320b 100644
 --- a/Levels/Loft/Loft.prefab
 +++ b/Levels/Loft/Loft.prefab
 @@ -24,7 +24,7 @@
@@ -40,17 +40,16 @@ index 84d0bfa..60e26f0 100644
                                  }
                              ]
                          }
-@@ -2897,7 +2904,8 @@
-                             "CameraEntityId": "",
-                             "ApertureF": 0.20000000298023224,
-                             "FNumber": 0.5988770723342896,
--                            "FocusDistance": 5.0
-+                            "FocusDistance": 5.0,
-+                            "FocusedEntityId": ""
-                         }
+@@ -591,7 +598,7 @@
+                         "Translate": [
+                             1.4699822664260864,
+                             1.9429869651794434,
+-                            0.0003572404384613037
++                            -0.029999999329447746
+                         ]
                      }
                  },
-@@ -5184,6 +5192,310 @@
+@@ -5184,6 +5191,310 @@
                  }
              ]
          },
@@ -330,9 +329,9 @@ index 84d0bfa..60e26f0 100644
 +                                "Parent Entity": "Entity_[7507839849146]",
 +                                "Transform Data": {
 +                                    "Translate": [
-+                                        -0.10219264030456543,
++                                        -0.10219264030456544,
 +                                        0.0,
-+                                        0.19462576508522034
++                                        0.1946257650852203
 +                                    ],
 +                                    "Rotate": [
 +                                        180.0,
@@ -361,7 +360,7 @@ index 84d0bfa..60e26f0 100644
          "Instance_[16288957418879]": {
              "Source": "Props/Kitchen_Refrigerator_MOD000016/refrigerator.prefab",
              "Patches": [
-@@ -5809,299 +6121,6 @@
+@@ -5809,299 +6120,6 @@
                  }
              ]
          },
@@ -662,7 +661,7 @@ index 84d0bfa..60e26f0 100644
              "Source": "Props/Office_Desk_Chair_B082BLFMRC/office_desk_chair.prefab",
              "Patches": [
 diff --git a/project.json b/project.json
-index 94e8b34..7353163 100644
+index 94e8b34..8985c27 100644
 --- a/project.json
 +++ b/project.json
 @@ -1,22 +1,22 @@
