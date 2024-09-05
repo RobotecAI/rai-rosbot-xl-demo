@@ -139,6 +139,9 @@ cd $DEMO_BASE/rai-rosbot-xl-demo/Project
 ```bash
 cd $DEMO_BASE/rai-rosbot-xl-demo/Project
 
+# Create seed list
+./build/linux/bin/profile/AssetBundlerBatch seeds --seedListFile $(pwd)/AssetBundling/SeedLists/husarion.seed --addSeed $(pwd)/Cache/linux/levels/loft/loft.spawnable
+
 # Prepare simulation seed list
 ./build/linux/bin/profile/AssetBundlerBatch assetLists --assetListFile $(pwd)/AssetBundling/AssetLists/game_linux.assetlist --platform linux --project-path $(pwd) --allowOverwrites --seedListFile $(pwd)/AssetBundling/SeedLists/husarion.seed
 
