@@ -61,22 +61,18 @@ class LEDStripController(Node):
             )
             return ""
 
-        if self.led_state == "waiting":
-            if self.tts_state == "playing":
-                self.led_state = "playing"
-            elif self.asr_state == "recording":
-                self.led_state = "recording"
-        elif self.led_state == "recording":
-            if self.asr_state == "transcribing":
-                self.led_state = "processing"
-        elif self.led_state == "processing":
-            if self.tts_state == "playing":
-                self.led_state = "playing"
-            elif self.asr_state == "dropping":
-                self.led_state = "waiting"
-        elif self.led_state == "playing":
-            if self.tts_state == "waiting":
-                self.led_state = "waiting"
+        if self.asr_state == "waiting":
+            self.led_state = "waiting"
+        if self.hmi_state == "processing":
+            self.led_state = "processing"
+        if self.tts_state == "playing" or self.tts_state == "processing":
+            self.led_state = "playing"
+        if self.asr_state == "recording":
+            self.led_state = "recording"
+
+        self.get_logger().info(f'{self.hmi_state=}, {self.asr_state=}, {self.tts_state=}, {self.led_state=}')
+        self.get_logger().info(f'LED state: {self.led_state}')
+        return self.led_state
 
     def timer_callback(self):
         color = STATE_TO_COLOR.get(self.led_state, DEFAULT_COLOR)
