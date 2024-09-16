@@ -166,7 +166,7 @@ $DEMO_BASE/rai-rosbot-xl-demo/release/RAIROSBotXLDemo.GameLauncher -bg_ConnectTo
 
 Scripts for starting the simulation and navigation stack are added to this repository:
 1. `run-game.bash`: a bash script starting the game (development build).
-2. `run-game-release.bash`: a bash script starting the game (release build).
+2. `run-game-bundled.bash`: a bash script starting the game (release build).
 3. `run-nav.bash`: a bash script starting the navigation stack.
 4. `run-rviz.bash`: a bash script starting RViz software to interface the navigation. 
 
