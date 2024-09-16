@@ -1,14 +1,12 @@
 # Autonomous Mobile Robot Demo
 
-This project demonstrates the use of [RAI](https://github.com/RobotecAI/rai) framework interfacing with a robot. In particular, it shows the communication between Generative AI models and the [Husarion ROSbot XL](https://husarion.com/manuals/rosbot-xl/) - an autonomous mobile robot platform developed by [Husarion](https://husarion.com). 
+The project stored in this repository is designed to demonstrate how the [RAI](https://github.com/RobotecAI/rai) framework interacts with the [ROSbot XL](https://husarion.com/manuals/rosbot-xl/), an autonomous mobile robot platform developed by [Husarion](https://husarion.com). The Husarion ROSBot XL provides a versatile and powerful platform for autonomous navigation, and this project showcases how RAI can be utilized to control and interface with the robot's sensors, actuators, and other onboard systems to achieve autonomous operation controlled by LLM.
 
 The demo can be successfully run on any robot equipped with the same set of sensors and controlled using ROS 2 messaging protocols. Additionally, the same behavior can be reproduced in the simulation developed using [O3DE](https://www.o3de.org/) game engine. 
 
-> **_NOTE:_**  This repository is not yet functional, as the demo is undergoing an internal review and development. The code will be fully usable and documented before [ROSCon 2024](https://roscon.ros.org/2024/).
-
 ## Demo description
 
-The robot equipped with a microphone can listen to the commands and react accordingly. The demo is limited by the current Generative AI models linked via RAI framework and the robot's sensors. A simple proof-of-concept implementation shows, that robot can move through the room and describe what it sees.
+The robot equipped with a microphone can listen to the commands and react accordingly. The demo is limited by the current Generative AI models linked via RAI framework and the robot's sensors. A simple proof-of-concept implementation shows, that RAI can interpret the commands from the operator and trigger actions on the robot. The robot can be either simulated or real thanks to ROS 2 middleware.
 
 This demo is designed to drive a real robot, but the simulation based on the [RobotVacuumSample demo](https://github.com/o3de/RobotVacuumSample) is provided for quick tests.
 
@@ -27,11 +25,46 @@ Simulation environment using O3DE.
 
 ## Starting guide
 
-### Real robot configuration
+### Introduction
 
-> **_NOTE:_** This section will be added in the final version of this document.
+The demo is provided as a binary package for Ubuntu 24.04 with ROS 2 Jazzy, ensuring quick and easy setup. The binary package is the recommended method to run the demo. The source code and a Dockerfile are also available for those who prefer to build the project themselves or run it in a containerized environment.
 
-### Simulation environment configuration
+### Building using docker environment
+
+The _Dockerfile_ defined in [docker folder](./docker) will prepare the appropriate ROS 2 distribution based environment and build the components necessary to run the demo project simulator through the O3DE engine.
+
+#### Requirements
+
+* [Hardware requirements of o3de](https://www.o3de.org/docs/welcome-guide/requirements/)
+* Ubuntu 22.04 (Jammy)
+* At least 60 GB of free disk space
+* Docker installed and configured
+  * **Note** It is recommended to have Docker installed correctly and in a secure manner so that the docker commands in this guide do not require elevated privileges (sudo) in order to run them. See [Docker Engine post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/) for more details.
+* [NVidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
+
+#### Building the Full Docker Image
+
+The `Dockerfile` supports defining which version of Ubuntu+ROS to base the docker container on, and by default will support Ubuntu 24.04 (noble) with the ROS 2 Jazzy distribution. It will build a Docker image that will contain the Editor and the demo launcher. Use the following command to build the image:
+
+```
+docker build -t rai-rosbot -f Dockerfile .
+```
+
+The build process may take over two hours depending on the hardware resource and network connectivity of the machine used to build the image.
+
+#### Running the Docker Image
+
+GPU acceleration is required for running O3DE correctly. For running docker with support for GPU please follow the documentation for [docker run](https://docs.docker.com/engine/reference/commandline/run/).
+
+Another option is to install and use [rocker](https://github.com/osrf/rocker):
+
+```
+rocker --x11 --nvidia --network="bridge" rai-rosbot
+```
+
+The above command will log you into the docker terminal that has the code built. You will find scripts to run the simulation in `/data/workspace/RAIROSBotXL` folder. The O3DE Editor is located under the following path: `/data/workspace/RAIROSBotXL/Project/build/linux/bin/profile/Editor`.
+
+### Building the demo from the source
 
 The simulation environment from [RobotVacuumSample demo](https://github.com/o3de/RobotVacuumSample) is used in this demo. The primary difference lies in the default robot model available. Specifically, the original repository utilized a vacuum cleaner model as its default robot, whereas the current repository has been configured to utilize [Husarion ROSbot XL](https://husarion.com/manuals/rosbot-xl/). A script that pulls the base repository as a submodule and applies a corresponding _Git patch_ is available on the repository. 
 
