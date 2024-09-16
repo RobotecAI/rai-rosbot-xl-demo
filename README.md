@@ -84,13 +84,13 @@ $DEMO_BASE/o3de/scripts/o3de.sh register -gp $DEMO_BASE/loft-arch-vis-sample/Gem
 
 ### Building
 
-You can build the simulation in:
+You can prepare the simulation executable with:
 - development build, or
-- release build.
+- exporting the project.
 
 **Development build** is tied with the local assets and is focused on development.
 
-**Release build** creates a bundled and portable version of the simulation that can be moved between PCs.
+**Exporting the project** creates a bundled and portable version of the simulation that can be moved between PCs.
 
 ### Development build
 
@@ -108,67 +108,25 @@ cmake --build build/linux --config profile --target RAIROSBotXLDemo.Assets RAIRO
 $DEMO_BASE/rai-rosbot-xl-demo/Project/build/linux/bin/profile/RAIROSBotXLDemo.GameLauncher -bg_ConnectToAssetProcessor=0
 ```
 
-### Release build
+### Exporting project
 
-1. Build required tools and assets
+1. Export the project using the o3de export tool
 ```bash
-cd $DEMO_BASE/rai-rosbot-xl-demo/Project
-cmake -B build/linux -S . -G "Ninja Multi-Config" -DLY_DISABLE_TEST_MODULES=ON -DLY_STRIP_DEBUG_SYMBOLS=ON
-cmake --build build/linux --target AssetBundlerBatch RAIROSBotXLDemo.Assets --config profile
+$DEMO_BASE/o3de/scripts/o3de.sh export-project -es ExportScripts/export_source_built_project.py --project-path $DEMO_BASE/rai-rosbot-xl-demo/Project -assets --fail-on-asset-errors -noserver -out $DEMO_BASE/rai-rosbot-xl-demo/release --build-tools --seedlist $DEMO_BASE/rai-rosbot-xl-demo/Project/AssetBundling/SeedLists/husarion.seed --no-unified-launcher
 ```
 
-2. Build executable
+2. Run the simulation
 ```bash
-cd $DEMO_BASE/rai-rosbot-xl-demo/Project
-cmake -B build/linux_mono -S . -G "Ninja Multi-Config" -DLY_DISABLE_TEST_MODULES=ON -DLY_STRIP_DEBUG_SYMBOLS=ON -DLY_MONOLITHIC_GAME=1
-cmake --build build/linux_mono --target RAIROSBotXLDemo.GameLauncher --config profile
-```
-
-3. Prepare engine asset bundle
-```bash
-cd $DEMO_BASE/rai-rosbot-xl-demo/Project
-
-# Prepare engine seed list
-./build/linux/bin/profile/AssetBundlerBatch assetLists --assetListFile $(pwd)/AssetBundling/AssetLists/engine_linux.assetlist --platform linux --project-path $(pwd) --allowOverwrites --addDefaultSeedListFiles
-
-# Build engine asset bundle
-./build/linux/bin/profile/AssetBundlerBatch bundles --maxSize 2048 --platform linux --project-path $(pwd) --allowOverwrites --outputBundlePath $(pwd)/AssetBundling/Bundles/engine_linux.pak --assetListFile $(pwd)/AssetBundling/AssetLists/engine_linux.assetlist
-```
-
-3. Prepare simulation asset bundle
-```bash
-cd $DEMO_BASE/rai-rosbot-xl-demo/Project
-
-# Create seed list
-./build/linux/bin/profile/AssetBundlerBatch seeds --seedListFile $(pwd)/AssetBundling/SeedLists/husarion.seed --addSeed $(pwd)/Cache/linux/levels/loft/loft.spawnable
-
-# Prepare simulation seed list
-./build/linux/bin/profile/AssetBundlerBatch assetLists --assetListFile $(pwd)/AssetBundling/AssetLists/game_linux.assetlist --platform linux --project-path $(pwd) --allowOverwrites --seedListFile $(pwd)/AssetBundling/SeedLists/husarion.seed
-
-# Build simulation asset bundle
-./build/linux/bin/profile/AssetBundlerBatch bundles --maxSize 2048 --platform linux --project-path $(pwd) --allowOverwrites --outputBundlePath $(pwd)/AssetBundling/Bundles/game_linux.pak --assetListFile $(pwd)/AssetBundling/AssetLists/game_linux.assetlist
-```
-
-4. Prepare bundle release
-```bash
-cd $DEMO_BASE/rai-rosbot-xl-demo
-mkdir -p release/Cache/linux
-cp $DEMO_BASE/rai-rosbot-xl-demo/Project/AssetBundling/Bundles/* ./release/Cache/linux
-cp $DEMO_BASE/rai-rosbot-xl-demo/Project/build/linux_mono/bin/profile/* ./release
-```
-
-5. Run the simulation
-```bash
-$DEMO_BASE/rai-rosbot-xl-demo/release/RAIROSBotXLDemo.GameLauncher -bg_ConnectToAssetProcessor=0
+$DEMO_BASE/rai-rosbot-xl-demo/release/RAIROSBotXLDemoGamePackage/RAIROSBotXLDemo.GameLauncher
 ```
 
 ### Running the simulation and navigation stack
 
 Scripts for starting the simulation and navigation stack are added to this repository:
 1. `run-game.bash`: a bash script starting the game (development build).
-2. `run-game-bundled.bash`: a bash script starting the game (release build).
+2. `run-game-exported.bash`: a bash script starting the game (exported project).
 3. `run-nav.bash`: a bash script starting the navigation stack.
 4. `run-rviz.bash`: a bash script starting RViz software to interface the navigation. 
 
-First, start the simulation with `run-game.bash` or `run-game-bundled.bash` (depending on your build type), and then start `run-nav.bash` and `run-rviz.bash` in separate shells and give the navigation goal in RViz window.
+First, start the simulation with `run-game.bash` or `run-game-exported.bash` (depending on your build type), and then start `run-nav.bash` and `run-rviz.bash` in separate shells and give the navigation goal in RViz window.
  

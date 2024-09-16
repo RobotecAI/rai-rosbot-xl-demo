@@ -15,6 +15,9 @@ then
 	exit 1
 fi
 
+mkdir -p ./AssetBundling/SeedLists
+cp ../patches/husarion.seed ./AssetBundling/SeedLists
+
 # Remove unused (ambiguous) files from the submodule
 rm -rf ./Assets/Importer/
 rm -rf ./Assets/RoboVac/
