@@ -36,11 +36,11 @@ The _Dockerfile_ defined in [docker folder](./docker) will prepare the appropria
 #### Requirements
 
 * [Hardware requirements of o3de](https://www.o3de.org/docs/welcome-guide/requirements/)
-* Ubuntu 22.04 (Jammy)
+* Ubuntu 22.04 (Jammy) or newer
 * At least 60 GB of free disk space
 * Docker installed and configured
   * **Note** It is recommended to have Docker installed correctly and in a secure manner so that the docker commands in this guide do not require elevated privileges (sudo) in order to run them. See [Docker Engine post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/) for more details.
-* [NVidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
+* [Nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
 
 #### Building the Full Docker Image
 

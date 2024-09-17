@@ -1,7 +1,6 @@
 ARG ROS_VERSION=jazzy
-ARG UBUNTU_VERSION=noble
 
-FROM ros:${ROS_VERSION}-ros-base-${UBUNTU_VERSION}
+FROM ros:${ROS_VERSION}-ros-base
 
 ENV WORKSPACE=/data/workspace
 
@@ -32,16 +31,6 @@ ENV PROJECT_DEMO_ROOT=$WORKSPACE/RAIROSBotXL
 ENV PROJECT_DEMO_PROJECT=$PROJECT_DEMO_ROOT/Project
 
 ENV LANG=en_US.UTF-8
-
-# Setup time zone and locale data (necessary for SSL and HTTPS packages)
-RUN apt-get update \
-  && DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata locales keyboard-configuration curl \
-  && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
-  && dpkg-reconfigure --frontend=noninteractive locales \
-  && update-locale LANG=en_US.UTF-8 \
-  && sh -c 'echo "deb [arch=amd64,arm64] http://repo.ros2.org/ubuntu/main `lsb_release -cs` main" > /etc/apt/sources.list.d/ros2-latest.list' \
-  && curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add - \
-  && rm -rf /var/lib/apt/lists/*
 
 # Install the required ubuntu packages
 RUN apt-get update \
