@@ -115,21 +115,51 @@ git lfs pull
 $DEMO_BASE/o3de/scripts/o3de.sh register -gp $DEMO_BASE/loft-arch-vis-sample/Gems/ArchVis
 ```
 
-5. Build and run the project
+### Building
 
-```
+You can prepare the simulation executable with:
+- development build, or
+- exporting the project.
+
+**Development build** is tied with the local assets and is focused on development.
+
+**Exporting the project** creates a bundled and portable version of the simulation that can be moved between PCs.
+
+### Development build
+
+1. Build development build
+
+```bash
 cd $DEMO_BASE/rai-rosbot-xl-demo/Project
 cmake -B build/linux -G "Ninja Multi-Config" -DLY_STRIP_DEBUG_SYMBOLS=TRUE -DLY_DISABLE_TEST_MODULES=ON
 cmake --build build/linux --config profile --target RAIROSBotXLDemo.Assets RAIROSBotXLDemo.GameLauncher
+```
+
+2. Run simulation
+
+```bash
 $DEMO_BASE/rai-rosbot-xl-demo/Project/build/linux/bin/profile/RAIROSBotXLDemo.GameLauncher -bg_ConnectToAssetProcessor=0
 ```
 
-### Running the simulation
+### Exporting project
 
-Three scripts starting the simulation and the configuration are added to this repository:
-1. `run-game.bash`: a bash script starting the game.
-2. `run-nav.bash`: a bash script starting the navigation stack.
-3. `run-rviz.bash`: a bash script starting RViz software to interface the navigation. 
+1. Export the project using the o3de export tool
+```bash
+$DEMO_BASE/o3de/scripts/o3de.sh export-project -es ExportScripts/export_source_built_project.py --project-path $DEMO_BASE/rai-rosbot-xl-demo/Project -assets --fail-on-asset-errors -noserver -out $DEMO_BASE/rai-rosbot-xl-demo/release --build-tools --seedlist $DEMO_BASE/rai-rosbot-xl-demo/Project/AssetBundling/SeedLists/husarion.seed --no-unified-launcher
+```
 
-Start all three scripts in three separate shells and give the navigation goal in RViz window.
+2. Run the simulation
+```bash
+$DEMO_BASE/rai-rosbot-xl-demo/release/RAIROSBotXLDemoGamePackage/RAIROSBotXLDemo.GameLauncher
+```
+
+### Running the simulation and navigation stack
+
+Scripts for starting the simulation and navigation stack are added to this repository:
+1. `run-game.bash`: a bash script starting the game (development build).
+2. `run-game-exported.bash`: a bash script starting the game (exported project).
+3. `run-nav.bash`: a bash script starting the navigation stack.
+4. `run-rviz.bash`: a bash script starting RViz software to interface the navigation. 
+
+First, start the simulation with `run-game.bash` or `run-game-exported.bash` (depending on your build type), and then start `run-nav.bash` and `run-rviz.bash` in separate shells and give the navigation goal in RViz window.
  

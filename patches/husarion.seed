@@ -1,0 +1,15 @@
+{
+    "Type": "JsonSerialization",
+    "Version": 1,
+    "ClassName": "AZStd::vector<SeedInfo, allocator>",
+    "ClassData": [
+        {
+            "assetId": {
+                "guid": "{FBEFCE9D-E77E-55F0-B0F8-ED27F64C7242}",
+                "subId": 1636270979
+            },
+            "platformFlags": 2,
+            "pathHint": "levels/loft/loft.spawnable"
+        }
+    ]
+}
