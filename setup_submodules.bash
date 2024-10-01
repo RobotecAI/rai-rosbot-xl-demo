@@ -18,6 +18,9 @@ fi
 mkdir -p ./AssetBundling/SeedLists
 cp ../patches/husarion.seed ./AssetBundling/SeedLists
 
+mkdir -p Gem/Source/LEDStrip
+cp ../patches/LEDStrip.* Gem/Source/LEDStrip
+
 # Remove unused (ambiguous) files from the submodule
 rm -rf ./Assets/Importer/
 rm -rf ./Assets/RoboVac/
