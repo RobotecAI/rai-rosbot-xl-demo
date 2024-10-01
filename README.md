@@ -44,7 +44,7 @@ The _Dockerfile_ defined in [docker folder](./docker) will prepare the appropria
 
 #### Building the Full Docker Image
 
-The `Dockerfile` supports defining which version of Ubuntu+ROS to base the docker container on, and by default will support Ubuntu 24.04 (noble) with the ROS 2 Jazzy distribution. It will build a Docker image that will contain the Editor and the demo launcher. Use the following command to build the image:
+The `Dockerfile` supports defining which version of Ubuntu+ROS to base the docker container on, and by default will support Ubuntu 24.04 (noble) with the ROS 2 Jazzy distribution. It will build a Docker image that will contain the Editor and the demo launcher. The file is located in [docker](./docker) folder. Use the following command to build the image:
 
 ```
 docker build -t rai-rosbot -f Dockerfile .
