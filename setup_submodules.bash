@@ -8,7 +8,7 @@ cd ./Project
 git lfs install
 git lfs pull
 
-git apply ../patches/updates.patch
+git apply --reject --whitespace=fix ../patches/updates.patch
 if [ $? -ne 0 ]
 then
 	echo "Failed to apply patch on a submodule."
