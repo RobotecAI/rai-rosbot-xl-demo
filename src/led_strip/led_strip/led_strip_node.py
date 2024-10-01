@@ -47,19 +47,17 @@ class LEDStripController(Node):
             self.tts_state = msg.data
             self.calculate_state()
 
-    def calculate_state(self) -> str:
+    def calculate_state(self):
         # priority order: recording > playing > processing > waiting
         if self.asr_state == "recording" and self.tts_state == "playing":
             self.get_logger().warn(
                 "ASR is recording and TTS is playing at the same time!"
             )
-            return ""
 
         if self.asr_state == "recording" and self.hmi_state == "processing":
             self.get_logger().warn(
                 "ASR is recording and HMI is processing at the same time!"
             )
-            return ""
 
         if self.asr_state == "waiting":
             self.led_state = "waiting"
@@ -72,7 +70,6 @@ class LEDStripController(Node):
 
         self.get_logger().info(f'{self.hmi_state=}, {self.asr_state=}, {self.tts_state=}, {self.led_state=}')
         self.get_logger().info(f'LED state: {self.led_state}')
-        return self.led_state
 
     def timer_callback(self):
         color = STATE_TO_COLOR.get(self.led_state, DEFAULT_COLOR)
