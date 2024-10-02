@@ -63,7 +63,11 @@ namespace Husarion
         auto* ros2Frame = ROS2::Utils::GetGameOrEditorComponent<ROS2::ROS2FrameComponent>(GetEntity());
         if (!ros2Frame)
         {
-            AZ_Error("LightController", false, "ROS2FrameComponent is not available. Component will not be activated.");
+            AZ_Error(
+                "LightController",
+                false,
+                "ROS2FrameComponent is not available. Component will not be "
+                "activated.");
             return;
         }
 
@@ -74,33 +78,48 @@ namespace Husarion
             m_topicConfiguration.GetQoS(),
             [this](const sensor_msgs::msg::Image::SharedPtr msg)
             {
-                if (msg->encoding.c_str() != AZStd::string("8UC1"))
+                AZStd::unordered_set<AZStd::string> supportedTypes{ "mono8", "rgb8", "rgba8", "8UC1", "8UC3", "8UC4" };
+                if (!supportedTypes.contains(msg->encoding.c_str()))
                 {
-                    AZ_Error("Husarion - LED strip", false, "Unsupported image encoding. Only 8UC1 is supported.");
-                    return;
-                }
-                if (msg->width != 3)
-                {
-                    AZ_Error("Husarion - LED strip", false, "Unsupported image width. Only 3 is supported.");
-                    return;
-                }
-                if (msg->height != 18)
-                {
-                    AZ_Error("Husarion - LED strip", false, "Unsupported image height. Only 18 is supported.");
+                    AZ_Error("Husarion - LED strip", false, "Unsupported image encoding.");
                     return;
                 }
 
+                const int channels = sensor_msgs::image_encodings::numChannels(msg->encoding);
+
+                int pixel = 0;
                 for (int h = 0; h < msg->height; ++h)
                 {
-                    AZ::u8 red = msg->data[h * msg->step + 0];
-                    AZ::u8 green = msg->data[h * msg->step + 1];
-                    AZ::u8 blue = msg->data[h * msg->step + 2];
-
-                    AZ::Color lightColor(red, green, blue, 255);
-                    if (m_lightSet.contains(h))
+                    for (int w = 0; w < msg->width; ++w)
                     {
-                        AZ::Render::AreaLightRequestBus::Event(
-                            m_lightSet[h], &AZ::Render::AreaLightRequestBus::Events::SetColor, lightColor);
+                        const int index = pixel * channels;
+                        if (m_lightSet.contains(pixel))
+                        {
+                            AZ::Color color;
+                            if (channels == 1)
+                            {
+                                AZ::u8 c = msg->data[index];
+                                color = AZ::Color(c, c, c, 255);
+                            }
+                            else if (channels == 3)
+                            {
+                                AZ::u8 r = msg->data[index + 0];
+                                AZ::u8 g = msg->data[index + 1];
+                                AZ::u8 b = msg->data[index + 2];
+                                color = AZ::Color(r, g, b, 255);
+                            }
+                            else if (channels == 4)
+                            {
+                                AZ::u8 r = msg->data[index + 0];
+                                AZ::u8 g = msg->data[index + 1];
+                                AZ::u8 b = msg->data[index + 2];
+                                AZ::u8 a = msg->data[index + 3];
+                                color = AZ::Color(r, g, b, a);
+                            }
+                            AZ::Render::AreaLightRequestBus::Event(
+                                m_lightSet[pixel], &AZ::Render::AreaLightRequestBus::Events::SetColor, color);
+                        }
+                        ++pixel;
                     }
                 }
             });

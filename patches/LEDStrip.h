@@ -6,6 +6,7 @@
 #include <AzCore/std/containers/map.h>
 #include <ROS2/Communication/TopicConfiguration.h>
 #include <rclcpp/subscription.hpp>
+#include <sensor_msgs/image_encodings.hpp>
 #include <sensor_msgs/msg/detail/image__struct.hpp>
 #include <sensor_msgs/msg/image.hpp>
 
