@@ -163,3 +163,27 @@ Scripts for starting the simulation and navigation stack are added to this repos
 
 First, start the simulation with `run-game.bash` or `run-game-exported.bash` (depending on your build type), and then start `run-nav.bash` and `run-rviz.bash` in separate shells and give the navigation goal in RViz window.
  
+### Running the manipulation package
+
+If your ROSBot XL is equipped with a manipulator, you can run the manipulation package provided in the `src/manipulation` directory. The package is based on the [MoveIt!](https://moveit.ros.org/) framework and provides a simple interface to control the manipulator that can be used with [RAI](https://github.com/RobotecAI/rai).
+
+```bash
+ros2 run manipulation manipulation
+```
+
+The package exposes two topics:
+
+* `/goal_state` (geometry_msgs/msg/Pose): set the goal pose for the manipulator;
+* `/animation` (std_msgs/msg/String): request an animation to be played by the manipulator. Example usage:
+  
+```bash
+ros2 topic pub --once /animation std_msgs/msg/String "{data: 'wave'}"
+```
+
+The robot will wave its arm! Other animations available are:
+
+* `rest` - move the arm to the rest position.
+* `wave` - wave the arm.
+* `give_can` - the arm will pick up a can from the robot's cupholder and place it on the floor.
+* `open` - open the gripper.
+* `close` - close the gripper.
