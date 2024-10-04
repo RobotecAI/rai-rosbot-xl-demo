@@ -46,6 +46,29 @@ void ROSBotController::Begin(ArmController &arm) {
                         current_y, current_z, current_rx, current_ry,
                         current_rz);
           });
+  auto pickup_subscription =
+      m_node->create_subscription<geometry_msgs::msg::Pose>(
+          "/pickup_from", 10, [&](geometry_msgs::msg::Pose::SharedPtr msg) {
+            std::string action = "";
+            for (auto i : {msg->position.x, msg->position.y, msg->position.z}) {
+              action += std::to_string(i) + " ";
+            }
+            RCLCPP_INFO(logger, "Action: %s", action.c_str());
+
+            double x = msg->position.x;
+            double y = msg->position.y;
+            double z = msg->position.z;
+            double r = 0.0;
+
+            arm.Open();
+            arm.MoveToPose({arm.CalculatePose(x, y, z + 0.1, r)});
+            arm.MoveToPose({arm.CalculatePose(x, y, z, r)});
+            arm.Close();
+            arm.MoveToPose(arm.CalculatePose(x, y, 0.2));
+            arm.MoveToPose(arm.CalculatePose(-0.053, -0.115, 0.12));
+            arm.Open();
+            arm.MoveToPose(arm.CalculatePose(-0.225, 0.0, 0.25));
+          });
   auto animation_subscription =
       m_node->create_subscription<std_msgs::msg::String>(
           "/animation", 10, [&](std_msgs::msg::String::SharedPtr msg) {

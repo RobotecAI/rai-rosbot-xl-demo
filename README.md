@@ -174,6 +174,7 @@ ros2 run manipulation manipulation
 The package exposes two topics:
 
 * `/goal_state` (geometry_msgs/msg/Pose): set the goal pose for the manipulator;
+* `/pickup_from` (geometry_msgs/msg/Pose): send the position from which the manipulator should pick up an object. It will pick up the object and place it in the cupholder.
 * `/animation` (std_msgs/msg/String): request an animation to be played by the manipulator. Example usage:
   
 ```bash
