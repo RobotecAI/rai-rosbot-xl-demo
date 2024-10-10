@@ -11,8 +11,116 @@ index c176865..b4cd5e9 100644
          LANGUAGES C CXX
          VERSION 1.0.0.0
      )
+diff --git a/Gem/CMakeLists.txt b/Gem/CMakeLists.txt
+index 9ebe917..38aa909 100644
+--- a/Gem/CMakeLists.txt
++++ b/Gem/CMakeLists.txt
+@@ -55,11 +55,17 @@ ly_add_target(
+         PUBLIC
+             Include
+     BUILD_DEPENDENCIES
++        PUBLIC
++            Gem::ROS2.Static
+         PRIVATE
++            AtomLyIntegration_CommonFeatures.Public
+             AZ::AzGameFramework
+             Gem::Atom_AtomBridge.Static
+ )
+ 
++# Request ROS2 packages to be included 
++target_depends_on_ros2_packages(${gem_name}.Static rclcpp tf2 std_msgs sensor_msgs)
++
+ ly_add_target(
+     NAME ${gem_name} ${PAL_TRAIT_MONOLITHIC_DRIVEN_MODULE_TYPE}
+     NAMESPACE Gem
+diff --git a/Gem/Source/RobotVacuumSampleModule.cpp b/Gem/Source/RobotVacuumSampleModule.cpp
+index f9f3ecd..9aedbe6 100644
+--- a/Gem/Source/RobotVacuumSampleModule.cpp
++++ b/Gem/Source/RobotVacuumSampleModule.cpp
+@@ -1,6 +1,7 @@
+ /*
+  * Copyright (c) Contributors to the Open 3D Engine Project.
+- * For complete copyright and license terms please see the LICENSE at the root of this distribution.
++ * For complete copyright and license terms please see the LICENSE at the root
++ * of this distribution.
+  *
+  * SPDX-License-Identifier: Apache-2.0 OR MIT
+  *
+@@ -9,36 +10,34 @@
+ #include <AzCore/Memory/SystemAllocator.h>
+ #include <AzCore/Module/Module.h>
+ 
++#include "LEDStrip/LEDStrip.h"
+ #include "RobotVacuumSampleSystemComponent.h"
+ 
+-namespace RobotVacuumSample
+-{
+-    class RobotVacuumSampleModule
+-        : public AZ::Module
+-    {
+-    public:
+-        AZ_RTTI(RobotVacuumSampleModule, "{0ea31247-8ee5-491d-93cb-296a6c91c995}", AZ::Module);
+-        AZ_CLASS_ALLOCATOR(RobotVacuumSampleModule, AZ::SystemAllocator, 0);
++namespace RobotVacuumSample {
++class RobotVacuumSampleModule : public AZ::Module {
++public:
++  AZ_RTTI(RobotVacuumSampleModule, "{0ea31247-8ee5-491d-93cb-296a6c91c995}",
++          AZ::Module);
++  AZ_CLASS_ALLOCATOR(RobotVacuumSampleModule, AZ::SystemAllocator, 0);
+ 
+-        RobotVacuumSampleModule()
+-            : AZ::Module()
+-        {
+-            // Push results of RobotVacuumSampleSystemComponent::CreateDescriptor() into m_descriptors here.
+-            m_descriptors.insert(m_descriptors.end(), {
+-                RobotVacuumSampleSystemComponent::CreateDescriptor(),
+-            });
+-        }
++  RobotVacuumSampleModule() : AZ::Module() {
++    // Push results of RobotVacuumSampleSystemComponent::CreateDescriptor() into
++    // m_descriptors here.
++    m_descriptors.insert(m_descriptors.end(),
++                         {RobotVacuumSampleSystemComponent::CreateDescriptor(),
++                          Husarion::LEDStrip::CreateDescriptor()});
++  }
+ 
+-        /**
+-         * Add required SystemComponents to the SystemEntity.
+-         */
+-        AZ::ComponentTypeList GetRequiredSystemComponents() const override
+-        {
+-            return AZ::ComponentTypeList{
+-                azrtti_typeid<RobotVacuumSampleSystemComponent>(),
+-            };
+-        }
++  /**
++   * Add required SystemComponents to the SystemEntity.
++   */
++  AZ::ComponentTypeList GetRequiredSystemComponents() const override {
++    return AZ::ComponentTypeList{
++        azrtti_typeid<RobotVacuumSampleSystemComponent>(),
+     };
+-}// namespace RobotVacuumSample
++  }
++};
++} // namespace RobotVacuumSample
+ 
+-AZ_DECLARE_MODULE_CLASS(Gem_RobotVacuumSample, RobotVacuumSample::RobotVacuumSampleModule)
++AZ_DECLARE_MODULE_CLASS(Gem_RobotVacuumSample,
++                        RobotVacuumSample::RobotVacuumSampleModule)
+diff --git a/Gem/robot_vacuum_sample_files.cmake b/Gem/robot_vacuum_sample_files.cmake
+index 2382d00..129fa99 100644
+--- a/Gem/robot_vacuum_sample_files.cmake
++++ b/Gem/robot_vacuum_sample_files.cmake
+@@ -10,4 +10,6 @@ set(FILES
+     Include/RobotVacuumSample/RobotVacuumSampleBus.h
+     Source/RobotVacuumSampleSystemComponent.cpp
+     Source/RobotVacuumSampleSystemComponent.h
++    Source/LEDStrip/LEDStrip.cpp
++    Source/LEDStrip/LEDStrip.h
+ )
 diff --git a/Levels/Loft/Loft.prefab b/Levels/Loft/Loft.prefab
-index 84d0bfa..638320b 100644
+index 84d0bfa..19882a5 100644
 --- a/Levels/Loft/Loft.prefab
 +++ b/Levels/Loft/Loft.prefab
 @@ -24,7 +24,7 @@
@@ -49,7 +157,7 @@ index 84d0bfa..638320b 100644
                          ]
                      }
                  },
-@@ -5184,6 +5191,310 @@
+@@ -5184,6 +5191,1153 @@
                  }
              ]
          },
@@ -75,36 +183,6 @@ index 84d0bfa..638320b 100644
 +                    "op": "replace",
 +                    "path": "/ContainerEntity/Components/Component_[959982562508610]/Transform Data/Translate/2",
 +                    "value": -0.015290498733520508
-+                },
-+                {
-+                    "op": "replace",
-+                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Translate/0",
-+                    "value": -0.9476395845413208
-+                },
-+                {
-+                    "op": "replace",
-+                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Translate/1",
-+                    "value": 0.7084693908691406
-+                },
-+                {
-+                    "op": "replace",
-+                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Translate/2",
-+                    "value": 1.4535069465637207
-+                },
-+                {
-+                    "op": "replace",
-+                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Rotate/0",
-+                    "value": 35.423553466796875
-+                },
-+                {
-+                    "op": "replace",
-+                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Rotate/1",
-+                    "value": 37.78596115112305
-+                },
-+                {
-+                    "op": "replace",
-+                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Rotate/2",
-+                    "value": -139.2576904296875
 +                },
 +                {
 +                    "op": "replace",
@@ -178,6 +256,11 @@ index 84d0bfa..638320b 100644
 +                },
 +                {
 +                    "op": "add",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/11",
++                    "value": "Entity_[3606091082346]"
++                },
++                {
++                    "op": "add",
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/ROS2OdometrySensorComponent",
 +                    "value": {
 +                        "$type": "GenericComponentWrapper",
@@ -203,6 +286,36 @@ index 84d0bfa..638320b 100644
 +                            }
 +                        }
 +                    }
++                },
++                {
++                    "op": "replace",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Translate/0",
++                    "value": -0.9476395845413208
++                },
++                {
++                    "op": "replace",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Translate/1",
++                    "value": 0.7084693908691406
++                },
++                {
++                    "op": "replace",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Translate/2",
++                    "value": 1.4535069465637207
++                },
++                {
++                    "op": "replace",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Rotate/0",
++                    "value": 35.423553466796875
++                },
++                {
++                    "op": "replace",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Rotate/1",
++                    "value": 37.78596115112305
++                },
++                {
++                    "op": "replace",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Rotate/2",
++                    "value": -139.2576904296875
 +                },
 +                {
 +                    "op": "add",
@@ -354,13 +467,851 @@ index 84d0bfa..638320b 100644
 +                        },
 +                        "IsRuntimeActive": true
 +                    }
++                },
++                {
++                    "op": "add",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[3649040755306]",
++                    "value": {
++                        "Id": "Entity_[3649040755306]",
++                        "Name": "leds",
++                        "Components": {
++                            "EditorDisabledCompositionComponent": {
++                                "$type": "EditorDisabledCompositionComponent",
++                                "Id": 15071823821030689239,
++                                "DisabledComponents": []
++                            },
++                            "EditorEntityIconComponent": {
++                                "$type": "EditorEntityIconComponent",
++                                "Id": 12623198857769754115,
++                                "EntityIconAssetId": {
++                                    "guid": "{00000000-0000-0000-0000-000000000000}",
++                                    "subId": 0
++                                }
++                            },
++                            "EditorEntitySortComponent": {
++                                "$type": "EditorEntitySortComponent",
++                                "Id": 4857731609615443601,
++                                "Child Entity Order": [
++                                    "Entity_[9434361703018]",
++                                    "Entity_[9447246604906]",
++                                    "Entity_[9460131506794]",
++                                    "Entity_[9473016408682]"
++                                ]
++                            },
++                            "EditorInspectorComponent": {
++                                "$type": "EditorInspectorComponent",
++                                "Id": 13422624070651342938,
++                                "ComponentOrderEntryArray": []
++                            },
++                            "EditorLockComponent": {
++                                "$type": "EditorLockComponent",
++                                "Id": 3114821448912022272,
++                                "Locked": false
++                            },
++                            "EditorOnlyEntityComponent": {
++                                "$type": "EditorOnlyEntityComponent",
++                                "Id": 2712868098646940842,
++                                "IsEditorOnly": false
++                            },
++                            "EditorPendingCompositionComponent": {
++                                "$type": "EditorPendingCompositionComponent",
++                                "Id": 12526528997120917520,
++                                "PendingComponents": []
++                            },
++                            "EditorVisibilityComponent": {
++                                "$type": "EditorVisibilityComponent",
++                                "Id": 6586465844210358749,
++                                "VisibilityFlag": true
++                            },
++                            "TransformComponent": {
++                                "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                                "Id": 10650662857206251744,
++                                "Parent Entity": "Entity_[3606091082346]",
++                                "Transform Data": {
++                                    "Translate": [
++                                        0.0,
++                                        0.0,
++                                        0.0
++                                    ],
++                                    "Rotate": [
++                                        0.0,
++                                        0.0,
++                                        0.0
++                                    ],
++                                    "Scale": [
++                                        1.0,
++                                        1.0,
++                                        1.0
++                                    ],
++                                    "Locked": false,
++                                    "UniformScale": 1.0
++                                },
++                                "Parent Activation Transform Mode": 0,
++                                "IsStatic": false,
++                                "InterpolatePosition": 0,
++                                "InterpolateRotation": 0
++                            }
++                        },
++                        "IsRuntimeActive": true
++                    }
++                },
++                {
++                    "op": "add",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[3606091082346]",
++                    "value": {
++                        "Id": "Entity_[3606091082346]",
++                        "Name": "led_strip",
++                        "Components": {
++                            "EditorDisabledCompositionComponent": {
++                                "$type": "EditorDisabledCompositionComponent",
++                                "Id": 358974090853920534,
++                                "DisabledComponents": []
++                            },
++                            "EditorEntityIconComponent": {
++                                "$type": "EditorEntityIconComponent",
++                                "Id": 4500976765967299734,
++                                "EntityIconAssetId": {
++                                    "guid": "{00000000-0000-0000-0000-000000000000}",
++                                    "subId": 0
++                                }
++                            },
++                            "EditorEntitySortComponent": {
++                                "$type": "EditorEntitySortComponent",
++                                "Id": 13391621620028539532,
++                                "Child Entity Order": [
++                                    "Entity_[3649040755306]",
++                                    "Entity_[3627565918826]"
++                                ]
++                            },
++                            "EditorInspectorComponent": {
++                                "$type": "EditorInspectorComponent",
++                                "Id": 2483252120585929723,
++                                "ComponentOrderEntryArray": []
++                            },
++                            "EditorLockComponent": {
++                                "$type": "EditorLockComponent",
++                                "Id": 8778037404539399630,
++                                "Locked": false
++                            },
++                            "EditorOnlyEntityComponent": {
++                                "$type": "EditorOnlyEntityComponent",
++                                "Id": 16517322563544690698,
++                                "IsEditorOnly": false
++                            },
++                            "EditorPendingCompositionComponent": {
++                                "$type": "EditorPendingCompositionComponent",
++                                "Id": 867632201357196864,
++                                "PendingComponents": []
++                            },
++                            "EditorVisibilityComponent": {
++                                "$type": "EditorVisibilityComponent",
++                                "Id": 9340059878917549910,
++                                "VisibilityFlag": true
++                            },
++                            "TransformComponent": {
++                                "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                                "Id": 5498112490028320794,
++                                "Parent Entity": "Entity_[7507839849146]",
++                                "Transform Data": {
++                                    "Translate": [
++                                        0.0,
++                                        0.0,
++                                        0.0
++                                    ],
++                                    "Rotate": [
++                                        0.0,
++                                        0.0,
++                                        0.0
++                                    ],
++                                    "Scale": [
++                                        1.0,
++                                        1.0,
++                                        1.0
++                                    ],
++                                    "Locked": false,
++                                    "UniformScale": 1.0
++                                },
++                                "Parent Activation Transform Mode": 0,
++                                "IsStatic": false,
++                                "InterpolatePosition": 0,
++                                "InterpolateRotation": 0
++                            }
++                        },
++                        "IsRuntimeActive": true
++                    }
++                },
++                {
++                    "op": "add",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[3627565918826]",
++                    "value": {
++                        "Id": "Entity_[3627565918826]",
++                        "Name": "controller",
++                        "Components": {
++                            "EditorDisabledCompositionComponent": {
++                                "$type": "EditorDisabledCompositionComponent",
++                                "Id": 73606627681706617,
++                                "DisabledComponents": []
++                            },
++                            "EditorEntityIconComponent": {
++                                "$type": "EditorEntityIconComponent",
++                                "Id": 9850914634082375354,
++                                "EntityIconAssetId": {
++                                    "guid": "{00000000-0000-0000-0000-000000000000}",
++                                    "subId": 0
++                                }
++                            },
++                            "EditorEntitySortComponent": {
++                                "$type": "EditorEntitySortComponent",
++                                "Id": 8361868025467468251,
++                                "Child Entity Order": []
++                            },
++                            "EditorInspectorComponent": {
++                                "$type": "EditorInspectorComponent",
++                                "Id": 3639945120187319927,
++                                "ComponentOrderEntryArray": []
++                            },
++                            "EditorLockComponent": {
++                                "$type": "EditorLockComponent",
++                                "Id": 10336729595102159302,
++                                "Locked": false
++                            },
++                            "EditorOnlyEntityComponent": {
++                                "$type": "EditorOnlyEntityComponent",
++                                "Id": 1786143438013267150,
++                                "IsEditorOnly": false
++                            },
++                            "EditorPendingCompositionComponent": {
++                                "$type": "EditorPendingCompositionComponent",
++                                "Id": 9563892481362695584,
++                                "PendingComponents": []
++                            },
++                            "EditorVisibilityComponent": {
++                                "$type": "EditorVisibilityComponent",
++                                "Id": 7783387967197486627,
++                                "VisibilityFlag": true
++                            },
++                            "LEDStrip": {
++                                "$type": "GenericComponentWrapper",
++                                "Id": 4193157760936481090,
++                                "m_template": {
++                                    "$type": "LEDStrip",
++                                    "Leds": [
++                                        [
++                                            0,
++                                            "Entity_[9434361703018]"
++                                        ],
++                                        [
++                                            3,
++                                            "Entity_[9447246604906]"
++                                        ],
++                                        [
++                                            8,
++                                            "Entity_[9460131506794]"
++                                        ],
++                                        [
++                                            13,
++                                            "Entity_[9473016408682]"
++                                        ]
++                                    ],
++                                    "intensity": 10.0,
++                                    "TopicConfiguration": {
++                                        "Type": "sensor_msgs/msg/image",
++                                        "Topic": "led_strip",
++                                        "QoS": {
++                                            "Reliability": 2,
++                                            "Durability": 2,
++                                            "Depth": 5
++                                        }
++                                    }
++                                }
++                            },
++                            "ROS2FrameEditorComponent": {
++                                "$type": "ROS2FrameEditorComponent",
++                                "Id": 16913189684188927069,
++                                "ROS2FrameConfiguration": {
++                                    "Namespace Configuration": {
++                                        "Namespace Strategy": 0,
++                                        "Namespace": ""
++                                    },
++                                    "Frame Name": "leds_frame",
++                                    "Joint Name": "",
++                                    "Publish Transform": true
++                                }
++                            },
++                            "TransformComponent": {
++                                "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                                "Id": 14247401117521865335,
++                                "Parent Entity": "Entity_[3606091082346]",
++                                "Transform Data": {
++                                    "Translate": [
++                                        0.0,
++                                        0.0,
++                                        0.0
++                                    ],
++                                    "Rotate": [
++                                        0.0,
++                                        0.0,
++                                        0.0
++                                    ],
++                                    "Scale": [
++                                        1.0,
++                                        1.0,
++                                        1.0
++                                    ],
++                                    "Locked": false,
++                                    "UniformScale": 1.0
++                                },
++                                "Parent Activation Transform Mode": 0,
++                                "IsStatic": false,
++                                "InterpolatePosition": 0,
++                                "InterpolateRotation": 0
++                            }
++                        },
++                        "IsRuntimeActive": true
++                    }
++                },
++                {
++                    "op": "add",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[9434361703018]",
++                    "value": {
++                        "Id": "Entity_[9434361703018]",
++                        "Name": "0",
++                        "Components": {
++                            "AZ::Render::EditorAreaLightComponent": {
++                                "$type": "AZ::Render::EditorAreaLightComponent",
++                                "Id": 12394459173116108458,
++                                "Controller": {
++                                    "Configuration": {
++                                        "LightType": 6,
++                                        "Color": [
++                                            1.0,
++                                            1.0,
++                                            1.0,
++                                            1.0
++                                        ],
++                                        "IntensityMode": 0,
++                                        "Intensity": 10.0,
++                                        "AttenuationRadiusMode": 1,
++                                        "AttenuationRadius": 10.0,
++                                        "LightEmitsBothDirections": false,
++                                        "UseFastApproximation": false,
++                                        "GoboAsset": {
++                                            "assetId": {
++                                                "guid": "{00000000-0000-0000-0000-000000000000}",
++                                                "subId": 0
++                                            },
++                                            "loadBehavior": "QueueLoad",
++                                            "assetHint": ""
++                                        },
++                                        "EnableShutters": false,
++                                        "InnerShutterAngleDegrees": 35.0,
++                                        "OuterShutterAngleDegrees": 45.0,
++                                        "Enable Shadow": false,
++                                        "Shadow Bias": 0.10000000149011612,
++                                        "Normal Shadow Bias": 0.0,
++                                        "Shadowmap Max Size": "Size256",
++                                        "Shadow Filter Method": 0,
++                                        "Filtering Sample Count": 12,
++                                        "Esm Exponent": 87.0,
++                                        "Shadow Caching Mode": 0,
++                                        "Shadow Caching Enabled": false,
++                                        "Affects GI": true,
++                                        "Affects GI Factor": 1.0,
++                                        "LightingChannelConfig": {
++                                            "lightingChannelFlags": [
++                                                true,
++                                                false,
++                                                false,
++                                                false,
++                                                false
++                                            ]
++                                        }
++                                    }
++                                }
++                            },
++                            "EditorDisabledCompositionComponent": {
++                                "$type": "EditorDisabledCompositionComponent",
++                                "Id": 10571022605550247935,
++                                "DisabledComponents": []
++                            },
++                            "EditorEntityIconComponent": {
++                                "$type": "EditorEntityIconComponent",
++                                "Id": 15457741460261428369,
++                                "EntityIconAssetId": {
++                                    "guid": "{00000000-0000-0000-0000-000000000000}",
++                                    "subId": 0
++                                }
++                            },
++                            "EditorEntitySortComponent": {
++                                "$type": "EditorEntitySortComponent",
++                                "Id": 1587810564424441331,
++                                "Child Entity Order": []
++                            },
++                            "EditorInspectorComponent": {
++                                "$type": "EditorInspectorComponent",
++                                "Id": 10665050593086246330,
++                                "ComponentOrderEntryArray": []
++                            },
++                            "EditorLockComponent": {
++                                "$type": "EditorLockComponent",
++                                "Id": 9290445237659683303,
++                                "Locked": false
++                            },
++                            "EditorOnlyEntityComponent": {
++                                "$type": "EditorOnlyEntityComponent",
++                                "Id": 4562205387857782953,
++                                "IsEditorOnly": false
++                            },
++                            "EditorPendingCompositionComponent": {
++                                "$type": "EditorPendingCompositionComponent",
++                                "Id": 8274512652100027097,
++                                "PendingComponents": []
++                            },
++                            "EditorVisibilityComponent": {
++                                "$type": "EditorVisibilityComponent",
++                                "Id": 2822223100445109902,
++                                "VisibilityFlag": true
++                            },
++                            "TransformComponent": {
++                                "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                                "Id": 1798644683938016943,
++                                "Parent Entity": "Entity_[3649040755306]",
++                                "Transform Data": {
++                                    "Translate": [
++                                        0.08500000089406967,
++                                        0.12400007247924805,
++                                        0.0
++                                    ],
++                                    "Rotate": [
++                                        0.0,
++                                        0.0,
++                                        0.0
++                                    ],
++                                    "Scale": [
++                                        1.0,
++                                        1.0,
++                                        1.0
++                                    ],
++                                    "Locked": false,
++                                    "UniformScale": 1.0
++                                },
++                                "Parent Activation Transform Mode": 0,
++                                "IsStatic": false,
++                                "InterpolatePosition": 0,
++                                "InterpolateRotation": 0
++                            }
++                        },
++                        "IsRuntimeActive": true
++                    }
++                },
++                {
++                    "op": "add",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[9447246604906]",
++                    "value": {
++                        "Id": "Entity_[9447246604906]",
++                        "Name": "1",
++                        "Components": {
++                            "AZ::Render::EditorAreaLightComponent": {
++                                "$type": "AZ::Render::EditorAreaLightComponent",
++                                "Id": 5084503850939111940,
++                                "Controller": {
++                                    "Configuration": {
++                                        "LightType": 6,
++                                        "Color": [
++                                            1.0,
++                                            1.0,
++                                            1.0,
++                                            1.0
++                                        ],
++                                        "IntensityMode": 0,
++                                        "Intensity": 10.0,
++                                        "AttenuationRadiusMode": 1,
++                                        "AttenuationRadius": 10.0,
++                                        "LightEmitsBothDirections": false,
++                                        "UseFastApproximation": false,
++                                        "GoboAsset": {
++                                            "assetId": {
++                                                "guid": "{00000000-0000-0000-0000-000000000000}",
++                                                "subId": 0
++                                            },
++                                            "loadBehavior": "QueueLoad",
++                                            "assetHint": ""
++                                        },
++                                        "EnableShutters": false,
++                                        "InnerShutterAngleDegrees": 35.0,
++                                        "OuterShutterAngleDegrees": 45.0,
++                                        "Enable Shadow": false,
++                                        "Shadow Bias": 0.10000000149011612,
++                                        "Normal Shadow Bias": 0.0,
++                                        "Shadowmap Max Size": "Size256",
++                                        "Shadow Filter Method": 0,
++                                        "Filtering Sample Count": 12,
++                                        "Esm Exponent": 87.0,
++                                        "Shadow Caching Mode": 0,
++                                        "Shadow Caching Enabled": false,
++                                        "Affects GI": true,
++                                        "Affects GI Factor": 1.0,
++                                        "LightingChannelConfig": {
++                                            "lightingChannelFlags": [
++                                                true,
++                                                false,
++                                                false,
++                                                false,
++                                                false
++                                            ]
++                                        }
++                                    }
++                                }
++                            },
++                            "EditorDisabledCompositionComponent": {
++                                "$type": "EditorDisabledCompositionComponent",
++                                "Id": 16955444659223176499,
++                                "DisabledComponents": []
++                            },
++                            "EditorEntityIconComponent": {
++                                "$type": "EditorEntityIconComponent",
++                                "Id": 11568557911039021133,
++                                "EntityIconAssetId": {
++                                    "guid": "{00000000-0000-0000-0000-000000000000}",
++                                    "subId": 0
++                                }
++                            },
++                            "EditorEntitySortComponent": {
++                                "$type": "EditorEntitySortComponent",
++                                "Id": 15855137193404472075,
++                                "Child Entity Order": []
++                            },
++                            "EditorInspectorComponent": {
++                                "$type": "EditorInspectorComponent",
++                                "Id": 14701485340091696432,
++                                "ComponentOrderEntryArray": []
++                            },
++                            "EditorLockComponent": {
++                                "$type": "EditorLockComponent",
++                                "Id": 3026296010401867535,
++                                "Locked": false
++                            },
++                            "EditorOnlyEntityComponent": {
++                                "$type": "EditorOnlyEntityComponent",
++                                "Id": 6457896215182501029,
++                                "IsEditorOnly": false
++                            },
++                            "EditorPendingCompositionComponent": {
++                                "$type": "EditorPendingCompositionComponent",
++                                "Id": 13787858217104134740,
++                                "PendingComponents": []
++                            },
++                            "EditorVisibilityComponent": {
++                                "$type": "EditorVisibilityComponent",
++                                "Id": 14036240229484776655,
++                                "VisibilityFlag": true
++                            },
++                            "TransformComponent": {
++                                "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                                "Id": 9457184316297870899,
++                                "Parent Entity": "Entity_[3649040755306]",
++                                "Transform Data": {
++                                    "Translate": [
++                                        -0.08500000834465027,
++                                        0.12400007247924805,
++                                        0.0
++                                    ],
++                                    "Rotate": [
++                                        0.0,
++                                        0.0,
++                                        0.0
++                                    ],
++                                    "Scale": [
++                                        1.0,
++                                        1.0,
++                                        1.0
++                                    ],
++                                    "Locked": false,
++                                    "UniformScale": 1.0
++                                },
++                                "Parent Activation Transform Mode": 0,
++                                "IsStatic": false,
++                                "InterpolatePosition": 0,
++                                "InterpolateRotation": 0
++                            }
++                        },
++                        "IsRuntimeActive": true
++                    }
++                },
++                {
++                    "op": "add",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[9460131506794]",
++                    "value": {
++                        "Id": "Entity_[9460131506794]",
++                        "Name": "2",
++                        "Components": {
++                            "AZ::Render::EditorAreaLightComponent": {
++                                "$type": "AZ::Render::EditorAreaLightComponent",
++                                "Id": 1872869779958382644,
++                                "Controller": {
++                                    "Configuration": {
++                                        "LightType": 6,
++                                        "Color": [
++                                            1.0,
++                                            1.0,
++                                            1.0,
++                                            1.0
++                                        ],
++                                        "IntensityMode": 0,
++                                        "Intensity": 10.0,
++                                        "AttenuationRadiusMode": 1,
++                                        "AttenuationRadius": 10.0,
++                                        "LightEmitsBothDirections": false,
++                                        "UseFastApproximation": false,
++                                        "GoboAsset": {
++                                            "assetId": {
++                                                "guid": "{00000000-0000-0000-0000-000000000000}",
++                                                "subId": 0
++                                            },
++                                            "loadBehavior": "QueueLoad",
++                                            "assetHint": ""
++                                        },
++                                        "EnableShutters": false,
++                                        "InnerShutterAngleDegrees": 35.0,
++                                        "OuterShutterAngleDegrees": 45.0,
++                                        "Enable Shadow": false,
++                                        "Shadow Bias": 0.10000000149011612,
++                                        "Normal Shadow Bias": 0.0,
++                                        "Shadowmap Max Size": "Size256",
++                                        "Shadow Filter Method": 0,
++                                        "Filtering Sample Count": 12,
++                                        "Esm Exponent": 87.0,
++                                        "Shadow Caching Mode": 0,
++                                        "Shadow Caching Enabled": false,
++                                        "Affects GI": true,
++                                        "Affects GI Factor": 1.0,
++                                        "LightingChannelConfig": {
++                                            "lightingChannelFlags": [
++                                                true,
++                                                false,
++                                                false,
++                                                false,
++                                                false
++                                            ]
++                                        }
++                                    }
++                                }
++                            },
++                            "EditorDisabledCompositionComponent": {
++                                "$type": "EditorDisabledCompositionComponent",
++                                "Id": 2192432043622460722,
++                                "DisabledComponents": []
++                            },
++                            "EditorEntityIconComponent": {
++                                "$type": "EditorEntityIconComponent",
++                                "Id": 1955543767624876406,
++                                "EntityIconAssetId": {
++                                    "guid": "{00000000-0000-0000-0000-000000000000}",
++                                    "subId": 0
++                                }
++                            },
++                            "EditorEntitySortComponent": {
++                                "$type": "EditorEntitySortComponent",
++                                "Id": 14461964326941844986,
++                                "Child Entity Order": []
++                            },
++                            "EditorInspectorComponent": {
++                                "$type": "EditorInspectorComponent",
++                                "Id": 3619191778669783668,
++                                "ComponentOrderEntryArray": []
++                            },
++                            "EditorLockComponent": {
++                                "$type": "EditorLockComponent",
++                                "Id": 10477301891743903278,
++                                "Locked": false
++                            },
++                            "EditorOnlyEntityComponent": {
++                                "$type": "EditorOnlyEntityComponent",
++                                "Id": 16577441298435236804,
++                                "IsEditorOnly": false
++                            },
++                            "EditorPendingCompositionComponent": {
++                                "$type": "EditorPendingCompositionComponent",
++                                "Id": 6325085944862632706,
++                                "PendingComponents": []
++                            },
++                            "EditorVisibilityComponent": {
++                                "$type": "EditorVisibilityComponent",
++                                "Id": 8030426203525656530,
++                                "VisibilityFlag": true
++                            },
++                            "TransformComponent": {
++                                "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                                "Id": 12125691264133961955,
++                                "Parent Entity": "Entity_[3649040755306]",
++                                "Transform Data": {
++                                    "Translate": [
++                                        -0.08500000834465027,
++                                        -0.12400007247924805,
++                                        0.0
++                                    ],
++                                    "Rotate": [
++                                        0.0,
++                                        0.0,
++                                        0.0
++                                    ],
++                                    "Scale": [
++                                        1.0,
++                                        1.0,
++                                        1.0
++                                    ],
++                                    "Locked": false,
++                                    "UniformScale": 1.0
++                                },
++                                "Parent Activation Transform Mode": 0,
++                                "IsStatic": false,
++                                "InterpolatePosition": 0,
++                                "InterpolateRotation": 0
++                            }
++                        },
++                        "IsRuntimeActive": true
++                    }
++                },
++                {
++                    "op": "add",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[9473016408682]",
++                    "value": {
++                        "Id": "Entity_[9473016408682]",
++                        "Name": "3",
++                        "Components": {
++                            "AZ::Render::EditorAreaLightComponent": {
++                                "$type": "AZ::Render::EditorAreaLightComponent",
++                                "Id": 11044176309950472526,
++                                "Controller": {
++                                    "Configuration": {
++                                        "LightType": 6,
++                                        "Color": [
++                                            1.0,
++                                            1.0,
++                                            1.0,
++                                            1.0
++                                        ],
++                                        "IntensityMode": 0,
++                                        "Intensity": 10.0,
++                                        "AttenuationRadiusMode": 1,
++                                        "AttenuationRadius": 10.0,
++                                        "LightEmitsBothDirections": false,
++                                        "UseFastApproximation": false,
++                                        "GoboAsset": {
++                                            "assetId": {
++                                                "guid": "{00000000-0000-0000-0000-000000000000}",
++                                                "subId": 0
++                                            },
++                                            "loadBehavior": "QueueLoad",
++                                            "assetHint": ""
++                                        },
++                                        "EnableShutters": false,
++                                        "InnerShutterAngleDegrees": 35.0,
++                                        "OuterShutterAngleDegrees": 45.0,
++                                        "Enable Shadow": false,
++                                        "Shadow Bias": 0.10000000149011612,
++                                        "Normal Shadow Bias": 0.0,
++                                        "Shadowmap Max Size": "Size256",
++                                        "Shadow Filter Method": 0,
++                                        "Filtering Sample Count": 12,
++                                        "Esm Exponent": 87.0,
++                                        "Shadow Caching Mode": 0,
++                                        "Shadow Caching Enabled": false,
++                                        "Affects GI": true,
++                                        "Affects GI Factor": 1.0,
++                                        "LightingChannelConfig": {
++                                            "lightingChannelFlags": [
++                                                true,
++                                                false,
++                                                false,
++                                                false,
++                                                false
++                                            ]
++                                        }
++                                    }
++                                }
++                            },
++                            "EditorDisabledCompositionComponent": {
++                                "$type": "EditorDisabledCompositionComponent",
++                                "Id": 10146512577784384261,
++                                "DisabledComponents": []
++                            },
++                            "EditorEntityIconComponent": {
++                                "$type": "EditorEntityIconComponent",
++                                "Id": 13108387318856540249,
++                                "EntityIconAssetId": {
++                                    "guid": "{00000000-0000-0000-0000-000000000000}",
++                                    "subId": 0
++                                }
++                            },
++                            "EditorEntitySortComponent": {
++                                "$type": "EditorEntitySortComponent",
++                                "Id": 13870364035646590883,
++                                "Child Entity Order": []
++                            },
++                            "EditorInspectorComponent": {
++                                "$type": "EditorInspectorComponent",
++                                "Id": 4621491318588641955,
++                                "ComponentOrderEntryArray": []
++                            },
++                            "EditorLockComponent": {
++                                "$type": "EditorLockComponent",
++                                "Id": 3411221861312336842,
++                                "Locked": false
++                            },
++                            "EditorOnlyEntityComponent": {
++                                "$type": "EditorOnlyEntityComponent",
++                                "Id": 4823212550225557520,
++                                "IsEditorOnly": false
++                            },
++                            "EditorPendingCompositionComponent": {
++                                "$type": "EditorPendingCompositionComponent",
++                                "Id": 11085652077241097011,
++                                "PendingComponents": []
++                            },
++                            "EditorVisibilityComponent": {
++                                "$type": "EditorVisibilityComponent",
++                                "Id": 1474728677708586793,
++                                "VisibilityFlag": true
++                            },
++                            "TransformComponent": {
++                                "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                                "Id": 3140089982725808861,
++                                "Parent Entity": "Entity_[3649040755306]",
++                                "Transform Data": {
++                                    "Translate": [
++                                        0.08500000089406967,
++                                        -0.12400007247924805,
++                                        0.0
++                                    ],
++                                    "Rotate": [
++                                        0.0,
++                                        0.0,
++                                        0.0
++                                    ],
++                                    "Scale": [
++                                        1.0,
++                                        1.0,
++                                        1.0
++                                    ],
++                                    "Locked": false,
++                                    "UniformScale": 1.0
++                                },
++                                "Parent Activation Transform Mode": 0,
++                                "IsStatic": false,
++                                "InterpolatePosition": 0,
++                                "InterpolateRotation": 0
++                            }
++                        },
++                        "IsRuntimeActive": true
++                    }
 +                }
 +            ]
 +        },
          "Instance_[16288957418879]": {
              "Source": "Props/Kitchen_Refrigerator_MOD000016/refrigerator.prefab",
              "Patches": [
-@@ -5809,299 +6120,6 @@
+@@ -5809,299 +6963,6 @@
                  }
              ]
          },
@@ -661,7 +1612,7 @@ index 84d0bfa..638320b 100644
              "Source": "Props/Office_Desk_Chair_B082BLFMRC/office_desk_chair.prefab",
              "Patches": [
 diff --git a/project.json b/project.json
-index 94e8b34..8985c27 100644
+index 94e8b34..e961082 100644
 --- a/project.json
 +++ b/project.json
 @@ -1,22 +1,22 @@
@@ -692,15 +1643,18 @@ index 94e8b34..8985c27 100644
      "gem_names": [
          "ArchVis",
          "Atom",
-@@ -31,7 +31,9 @@
+@@ -31,7 +31,10 @@
          "ROS2>=3.1.0",
          "ScriptEvents",
          "StartingPointInput",
 -        "TextureAtlas"
 +        "TextureAtlas",
 +        "RosRobotSample",
-+        "DiffuseProbeGrid"
++        "DiffuseProbeGrid",
++        "RobotVacuumSample"
      ],
 -    "engine_version": "4.1.0"
+-}
 +    "engine_version": "2.2.1"
- }
++}
+\ No newline at end of file
