@@ -10,9 +10,8 @@ public:
   geometry_msgs::msg::Pose CalculatePose(double x, double y, double z,
                                          double r = 0.0);
 
-  void
-  MoveThroughWaypoints(std::vector<geometry_msgs::msg::Pose> const &waypoints);
-  void MoveToPose(geometry_msgs::msg::Pose pose);
+  bool MoveToPose(const geometry_msgs::msg::Pose& pose);
+  bool MoveThroughWaypoints(const std::vector<geometry_msgs::msg::Pose>& waypoints);
 
   void Open();
   void Close();
@@ -22,6 +21,9 @@ public:
 
   std::vector<double> CaptureJointValues();
   void SetJointValues(std::vector<double> const &jointValues);
+
+  void SetNumPlanningAttempts(unsigned int num_planning_attempts);
+  void SetPlanningTime(double seconds);
 
 private:
   std::shared_ptr<moveit::planning_interface::MoveGroupInterface> m_arm;

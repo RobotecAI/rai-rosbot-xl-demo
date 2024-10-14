@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(gazebo_msgs REQUIRED)
+find_package(rai_interfaces REQUIRED)
 
 add_executable(manipulation src/manipulation.cpp src/arm_controller.cpp src/rosbot_controller.cpp)
 target_include_directories(manipulation PUBLIC
@@ -21,6 +22,7 @@ ament_target_dependencies(
   "moveit_ros_planning_interface"
   "rclcpp"
   "gazebo_msgs"
+  "rai_interfaces"
 )
 
 install(TARGETS manipulation

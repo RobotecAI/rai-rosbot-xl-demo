@@ -28,12 +28,14 @@ ArmController::~ArmController() {
   }
 }
 
-void ArmController::MoveToPose(geometry_msgs::msg::Pose pose) {
+bool ArmController::MoveToPose(const geometry_msgs::msg::Pose &pose) {
   m_arm->setPoseTarget(pose);
-  while (m_arm->move() != moveit::core::MoveItErrorCode::SUCCESS) {
+  if (m_arm->move() != moveit::core::MoveItErrorCode::SUCCESS) {
     RCLCPP_ERROR(m_node->get_logger(), "Failed to move to pose");
+    return false;
   }
   std::this_thread::sleep_for(std::chrono::milliseconds(300));
+  return true;
 }
 
 geometry_msgs::msg::Pose ArmController::CalculatePose(double x, double y,
@@ -61,19 +63,21 @@ geometry_msgs::msg::Pose ArmController::CalculatePose(double x, double y,
   return pose;
 }
 
-void ArmController::MoveThroughWaypoints(
+bool ArmController::MoveThroughWaypoints(
     std::vector<geometry_msgs::msg::Pose> const &waypoints) {
   auto logger = m_node->get_logger();
   moveit_msgs::msg::RobotTrajectory trajectory;
   if (m_arm->computeCartesianPath(waypoints, 0.01, 0.0, trajectory) == -1) {
     RCLCPP_ERROR(logger,
                  "MoveThroughWaypoints: Failed to compute Cartesian path");
-    return;
+    return false;
   }
 
   while (m_arm->execute(trajectory) != moveit::core::MoveItErrorCode::SUCCESS) {
     RCLCPP_ERROR(logger, "MoveThroughWaypoints: Failed to execute trajectory");
   }
+
+  return true;
 }
 
 void ArmController::Open() {
@@ -124,4 +128,12 @@ void ArmController::SetJointValues(std::vector<double> const &jointValues) {
   if (m_arm->move() != moveit::core::MoveItErrorCode::SUCCESS) {
     RCLCPP_ERROR(m_node->get_logger(), "Failed to set joint values");
   }
+}
+
+void ArmController::SetNumPlanningAttempts(unsigned int num_planning_attempts) {
+  m_arm->setNumPlanningAttempts(num_planning_attempts);
+}
+
+void ArmController::SetPlanningTime(double seconds) {
+  m_arm->setPlanningTime(seconds);
 }
