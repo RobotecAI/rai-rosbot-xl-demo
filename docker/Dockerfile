@@ -8,13 +8,13 @@ WORKDIR $WORKSPACE
 
 # O3DE Variables
 ARG O3DE_REPO=https://github.com/o3de/o3de.git
-ARG O3DE_BRANCH=stabilization/2409
+ARG O3DE_BRANCH=main
 ARG O3DE_COMMIT=HEAD
 ENV O3DE_ROOT=$WORKSPACE/o3de
 
 # O3DE Extras Variables
 ARG O3DE_EXTRAS_REPO=https://github.com/o3de/o3de-extras.git
-ARG O3DE_EXTRAS_BRANCH=stabilization/2409
+ARG O3DE_EXTRAS_BRANCH=main
 ARG O3DE_EXTRAS_COMMIT=HEAD
 ENV O3DE_EXTRAS_ROOT=$WORKSPACE/o3de-extras
 
