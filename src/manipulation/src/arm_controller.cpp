@@ -20,6 +20,9 @@ ArmController::ArmController() {
   m_arm->setGoalOrientationTolerance(0.05);
   m_arm->setGoalPositionTolerance(0.0001);
 
+  SetNumPlanningAttempts(1000);
+  SetPlanningTime(0.5);
+
   m_tfBuffer = std::make_unique<tf2_ros::Buffer>(m_node->get_clock());
   m_tfListener = std::make_unique<tf2_ros::TransformListener>(*m_tfBuffer);
 }

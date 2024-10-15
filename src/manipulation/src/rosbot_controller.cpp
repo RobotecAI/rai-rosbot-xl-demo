@@ -55,12 +55,13 @@ void ROSBotController::Begin(ArmController &arm) {
 
       {
         auto above_current = arm.GetEffectorPose();
-        above_current[2] = std::min(0.35, std::max(above_current[2] + 0.10, 0.20));
+        above_current[2] = std::min(0.30, std::max(above_current[2] + 0.03, 0.20));
+        RCLCPP_INFO(logger, "Above current: %f %f %f", above_current[0], above_current[1], above_current[2]);
         if (!arm.MoveToPose(arm.CalculatePose(above_current[0], above_current[1], above_current[2])))
           return;
 
         auto above_target = request->target_pose.pose;
-        above_target.position.z = std::min(0.35, std::max(above_target.position.z + 0.10, 0.20));
+        above_target.position.z = std::min(0.30, std::max(above_target.position.z + 0.10, 0.20));
         if (!arm.MoveToPose(arm.CalculatePose(above_target.position.x, above_target.position.y, above_target.position.z)) ||
             !arm.MoveToPose(arm.CalculatePose(request->target_pose.pose.position.x, request->target_pose.pose.position.y, request->target_pose.pose.position.z)))
           return;
