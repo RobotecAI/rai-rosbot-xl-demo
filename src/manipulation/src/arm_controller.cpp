@@ -19,6 +19,9 @@ ArmController::ArmController() {
 
   m_arm->setGoalOrientationTolerance(0.05);
   m_arm->setGoalPositionTolerance(0.0001);
+
+  m_tfBuffer = std::make_unique<tf2_ros::Buffer>(m_node->get_clock());
+  m_tfListener = std::make_unique<tf2_ros::TransformListener>(*m_tfBuffer);
 }
 
 ArmController::~ArmController() {
@@ -108,7 +111,18 @@ void ArmController::Close() {
 }
 
 std::vector<double> ArmController::GetEffectorPose() {
-  auto pose = m_arm->getCurrentPose().pose;
+  auto pose_stamped = m_arm->getCurrentPose();
+
+  try {
+    auto transform = m_tfBuffer->lookupTransform("link1", pose_stamped.header.frame_id,
+                                                 rclcpp::Time(0));
+    tf2::doTransform(pose_stamped, pose_stamped, transform);
+  } catch (tf2::TransformException &ex) {
+    RCLCPP_ERROR(m_node->get_logger(), "Failed to transform pose: %s", ex.what());
+  }
+
+  auto pose = pose_stamped.pose;
+
   auto rotation = tf2::Quaternion(pose.orientation.x, pose.orientation.y,
                                   pose.orientation.z, pose.orientation.w);
   tf2::Matrix3x3 m(rotation);

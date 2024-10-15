@@ -20,7 +20,6 @@ ROSBotController::~ROSBotController() {
 void ROSBotController::Begin(ArmController &arm) {
   auto logger = m_node->get_logger();
 
-  std::optional<geometry_msgs::msg::Pose> last_pose = std::nullopt;
   auto service = m_node->create_service<rai_interfaces::srv::ManipulatorMoveTo>(
     "/manipulator_move_to",
     [&](const std::shared_ptr<rai_interfaces::srv::ManipulatorMoveTo::Request> request,
@@ -55,12 +54,10 @@ void ROSBotController::Begin(ArmController &arm) {
       }
 
       {
-        if (last_pose) {
-          auto above_current = last_pose.value();
-          above_current.position.z = std::min(0.35, std::max(above_current.position.z + 0.10, 0.20));
-          if (!arm.MoveToPose(arm.CalculatePose(above_current.position.x, above_current.position.y, above_current.position.z)))
-            return;
-        }
+        auto above_current = arm.GetEffectorPose();
+        above_current[2] = std::min(0.35, std::max(above_current[2] + 0.10, 0.20));
+        if (!arm.MoveToPose(arm.CalculatePose(above_current[0], above_current[1], above_current[2])))
+          return;
 
         auto above_target = request->target_pose.pose;
         above_target.position.z = std::min(0.35, std::max(above_target.position.z + 0.10, 0.20));
@@ -76,7 +73,6 @@ void ROSBotController::Begin(ArmController &arm) {
       }
 
       response->success = true;
-      last_pose = request->target_pose.pose;
     }
   );
   auto state_subscription =

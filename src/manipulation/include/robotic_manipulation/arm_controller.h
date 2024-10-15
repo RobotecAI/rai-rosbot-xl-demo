@@ -2,6 +2,10 @@
 
 #include <moveit/move_group_interface/move_group_interface.h>
 
+#include <tf2_ros/transform_listener.h>
+#include <tf2_ros/buffer.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+
 class ArmController {
 public:
   ArmController();
@@ -34,4 +38,7 @@ private:
   rclcpp::Node::SharedPtr m_node;
   rclcpp::executors::SingleThreadedExecutor m_executor;
   std::thread m_spinner;
+
+  std::unique_ptr<tf2_ros::Buffer> m_tfBuffer;
+  std::unique_ptr<tf2_ros::TransformListener> m_tfListener;
 };
