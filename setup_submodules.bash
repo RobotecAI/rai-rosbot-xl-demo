@@ -21,6 +21,8 @@ cp ../patches/husarion.seed ./AssetBundling/SeedLists
 mkdir -p Gem/Source/LEDStrip
 cp ../patches/LEDStrip.* Gem/Source/LEDStrip
 
+cp ../patches/sim_config.setreg Registry
+
 # Remove unused (ambiguous) files from the submodule
 rm -rf ./Assets/Importer/
 rm -rf ./Assets/RoboVac/

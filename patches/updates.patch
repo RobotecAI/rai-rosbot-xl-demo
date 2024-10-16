@@ -12,7 +12,7 @@ index c176865..b4cd5e9 100644
          VERSION 1.0.0.0
      )
 diff --git a/Gem/CMakeLists.txt b/Gem/CMakeLists.txt
-index 9ebe917..38aa909 100644
+index 9ebe917..52f1e68 100644
 --- a/Gem/CMakeLists.txt
 +++ b/Gem/CMakeLists.txt
 @@ -55,11 +55,17 @@ ly_add_target(
@@ -27,7 +27,7 @@ index 9ebe917..38aa909 100644
              Gem::Atom_AtomBridge.Static
  )
  
-+# Request ROS2 packages to be included 
++# Request ROS2 packages to be included
 +target_depends_on_ros2_packages(${gem_name}.Static rclcpp tf2 std_msgs sensor_msgs)
 +
  ly_add_target(
@@ -120,19 +120,75 @@ index 2382d00..129fa99 100644
 +    Source/LEDStrip/LEDStrip.h
  )
 diff --git a/Levels/Loft/Loft.prefab b/Levels/Loft/Loft.prefab
-index 84d0bfa..19882a5 100644
+index 84d0bfa..e6a026c 100644
 --- a/Levels/Loft/Loft.prefab
 +++ b/Levels/Loft/Loft.prefab
-@@ -24,7 +24,7 @@
+@@ -24,7 +24,8 @@
                      "Entity_[4857644544770]",
                      "Entity_[50747416825914]",
                      "Entity_[2425721989581]",
 -                    ""
-+                    "Instance_[1625571924835]/ContainerEntity"
++                    "Instance_[1625571924835]/ContainerEntity",
++                    "Entity_[1645122128345]"
                  ]
              },
              "Component_[15230859088967841193]": {
-@@ -555,7 +555,14 @@
+@@ -505,35 +506,37 @@
+                     "Parent Entity": "Entity_[50747416825914]",
+                     "Transform Data": {
+                         "Translate": [
+-                            4.551455497741699,
+-                            -7.316291809082031,
+-                            0.43408381938934326
++                            5.696077346801758,
++                            -7.314481258392334,
++                            0.5115410089492798
+                         ],
+                         "Rotate": [
+-                            -9.127589225769043,
+-                            7.356801509857178,
+-                            -38.5538444519043
++                            -8.753802299499512,
++                            -3.8225655555725098,
++                            23.410276412963867
+                         ]
+                     }
+                 },
+                 "Component_[3807600192390120146]": {
+                     "$type": "EditorDisabledCompositionComponent",
+-                    "Id": 3807600192390120146
++                    "Id": 3807600192390120146,
++                    "DisabledComponents": {
++                        "Component_[4065892694733744560]": {
++                            "$type": "{CA11DA46-29FF-4083-B5F6-E02C3A8C3A3D} EditorCameraComponent",
++                            "Id": 4065892694733744560,
++                            "Controller": {
++                                "Configuration": {
++                                    "Field of View": 60.00014877319336,
++                                    "MakeActiveViewOnActivation": false
++                                }
++                            }
++                        }
++                    }
+                 },
+                 "Component_[3846819686874462645]": {
+                     "$type": "EditorVisibilityComponent",
+                     "Id": 3846819686874462645
+                 },
+-                "Component_[4065892694733744560]": {
+-                    "$type": "{CA11DA46-29FF-4083-B5F6-E02C3A8C3A3D} EditorCameraComponent",
+-                    "Id": 4065892694733744560,
+-                    "Controller": {
+-                        "Configuration": {
+-                            "Field of View": 60.00014877319336,
+-                            "MakeActiveViewOnActivation": false
+-                        }
+-                    }
+-                },
+                 "Component_[9757437734182996498]": {
+                     "$type": "EditorOnlyEntityComponent",
+                     "Id": 9757437734182996498
+@@ -555,7 +558,14 @@
                          "MaterialSlots": {
                              "Slots": [
                                  {
@@ -148,118 +204,1043 @@ index 84d0bfa..19882a5 100644
                                  }
                              ]
                          }
-@@ -591,7 +598,7 @@
+@@ -591,7 +601,7 @@
                          "Translate": [
                              1.4699822664260864,
                              1.9429869651794434,
 -                            0.0003572404384613037
-+                            -0.029999999329447746
++                            0.0
                          ]
                      }
                  },
-@@ -5184,6 +5191,1153 @@
+@@ -731,6 +741,320 @@
+                 }
+             }
+         },
++        "Entity_[1632600041458]": {
++            "Id": "Entity_[1632600041458]",
++            "Name": "PostFX",
++            "Components": {
++                "AZ::Render::EditorPostFxLayerComponent": {
++                    "$type": "AZ::Render::EditorPostFxLayerComponent",
++                    "Id": 12256696997773649051
++                },
++                "AZ::Render::EditorSsaoComponent": {
++                    "$type": "AZ::Render::EditorSsaoComponent",
++                    "Id": 5383900389413593755,
++                    "Controller": {
++                        "Configuration": {
++                            "Strength": 0.6600000262260437,
++                            "SamplingRadius": 0.012500000186264515,
++                            "BlurConstFalloff": 0.40849998593330383
++                        }
++                    }
++                },
++                "EditorDisabledCompositionComponent": {
++                    "$type": "EditorDisabledCompositionComponent",
++                    "Id": 5431026626355029404
++                },
++                "EditorEntityIconComponent": {
++                    "$type": "EditorEntityIconComponent",
++                    "Id": 1776340137396084478
++                },
++                "EditorEntitySortComponent": {
++                    "$type": "EditorEntitySortComponent",
++                    "Id": 5403227862500418045
++                },
++                "EditorInspectorComponent": {
++                    "$type": "EditorInspectorComponent",
++                    "Id": 11614661912954070743
++                },
++                "EditorLockComponent": {
++                    "$type": "EditorLockComponent",
++                    "Id": 16830361954141339023
++                },
++                "EditorOnlyEntityComponent": {
++                    "$type": "EditorOnlyEntityComponent",
++                    "Id": 525200501881896101
++                },
++                "EditorPendingCompositionComponent": {
++                    "$type": "EditorPendingCompositionComponent",
++                    "Id": 3228026669251868593
++                },
++                "EditorVisibilityComponent": {
++                    "$type": "EditorVisibilityComponent",
++                    "Id": 7358737743305887704
++                },
++                "TransformComponent": {
++                    "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                    "Id": 10592820928752767071,
++                    "Parent Entity": "Entity_[24358259808379]",
++                    "Transform Data": {
++                        "Translate": [
++                            0.0,
++                            1.111482858657837,
++                            -1.2914128303527832
++                        ]
++                    }
++                }
++            }
++        },
++        "Entity_[1641189976050]": {
++            "Id": "Entity_[1641189976050]",
++            "Name": "Ceiling lamps",
++            "Components": {
++                "EditorDisabledCompositionComponent": {
++                    "$type": "EditorDisabledCompositionComponent",
++                    "Id": 17050370182049037836
++                },
++                "EditorEntityIconComponent": {
++                    "$type": "EditorEntityIconComponent",
++                    "Id": 10050388642135676751
++                },
++                "EditorEntitySortComponent": {
++                    "$type": "EditorEntitySortComponent",
++                    "Id": 2830351344757687385,
++                    "Child Entity Order": [
++                        "Entity_[2481048322424]",
++                        "Entity_[2476753355128]",
++                        "Entity_[2536882897272]",
++                        "Entity_[2472458387832]",
++                        "Entity_[2528292962680]",
++                        "Entity_[2442393616760]",
++                        "Entity_[2438098649464]",
++                        "Entity_[2468163420536]",
++                        "Entity_[2515408060792]",
++                        "Entity_[2446688584056]",
++                        "Entity_[2502523158904]",
++                        "Entity_[2493933224312]",
++                        "Entity_[2455278518648]",
++                        "Entity_[2498228191608]",
++                        "Entity_[2425213747576]",
++                        "Entity_[2545472831864]",
++                        "Entity_[2463868453240]",
++                        "Entity_[2506818126200]",
++                        "Entity_[2554062766456]",
++                        "Entity_[2541177864568]",
++                        "Entity_[2485343289720]"
++                    ]
++                },
++                "EditorInspectorComponent": {
++                    "$type": "EditorInspectorComponent",
++                    "Id": 603695829159842515
++                },
++                "EditorLockComponent": {
++                    "$type": "EditorLockComponent",
++                    "Id": 6723033257833092621
++                },
++                "EditorOnlyEntityComponent": {
++                    "$type": "EditorOnlyEntityComponent",
++                    "Id": 12362862838686821412
++                },
++                "EditorPendingCompositionComponent": {
++                    "$type": "EditorPendingCompositionComponent",
++                    "Id": 12175497920464315733
++                },
++                "EditorVisibilityComponent": {
++                    "$type": "EditorVisibilityComponent",
++                    "Id": 2844873200500998262
++                },
++                "TransformComponent": {
++                    "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                    "Id": 15920458112136192178,
++                    "Parent Entity": "Entity_[2519703028088]",
++                    "Transform Data": {
++                        "Translate": [
++                            -7.4341206550598145,
++                            14.991377830505371,
++                            3.172008991241455
++                        ]
++                    }
++                }
++            }
++        },
++        "Entity_[1645122128345]": {
++            "Id": "Entity_[1645122128345]",
++            "Name": "Manager",
++            "Components": {
++                "EditorDisabledCompositionComponent": {
++                    "$type": "EditorDisabledCompositionComponent",
++                    "Id": 17736062616868173599
++                },
++                "EditorEntityIconComponent": {
++                    "$type": "EditorEntityIconComponent",
++                    "Id": 11598879965042282475
++                },
++                "EditorEntitySortComponent": {
++                    "$type": "EditorEntitySortComponent",
++                    "Id": 1701649039513180017,
++                    "Child Entity Order": [
++                        "Entity_[1649417095641]"
++                    ]
++                },
++                "EditorInspectorComponent": {
++                    "$type": "EditorInspectorComponent",
++                    "Id": 13773958407105339227
++                },
++                "EditorLockComponent": {
++                    "$type": "EditorLockComponent",
++                    "Id": 2867223603522869459
++                },
++                "EditorOnlyEntityComponent": {
++                    "$type": "EditorOnlyEntityComponent",
++                    "Id": 11238785940359083887
++                },
++                "EditorPendingCompositionComponent": {
++                    "$type": "EditorPendingCompositionComponent",
++                    "Id": 6838879769539907966
++                },
++                "EditorVisibilityComponent": {
++                    "$type": "EditorVisibilityComponent",
++                    "Id": 3874855417937595587
++                },
++                "TransformComponent": {
++                    "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                    "Id": 5270539844955044499,
++                    "Parent Entity": "Entity_[1146574390643]"
++                }
++            }
++        },
++        "Entity_[1649417095641]": {
++            "Id": "Entity_[1649417095641]",
++            "Name": "Entity2",
++            "Components": {
++                "EditorCameraComponent": {
++                    "$type": "{CA11DA46-29FF-4083-B5F6-E02C3A8C3A3D} EditorCameraComponent",
++                    "Id": 17943564076134356271
++                },
++                "EditorDisabledCompositionComponent": {
++                    "$type": "EditorDisabledCompositionComponent",
++                    "Id": 4642291119460645490
++                },
++                "EditorEntityIconComponent": {
++                    "$type": "EditorEntityIconComponent",
++                    "Id": 10984344919897382393
++                },
++                "EditorEntitySortComponent": {
++                    "$type": "EditorEntitySortComponent",
++                    "Id": 13418530227137126621
++                },
++                "EditorInspectorComponent": {
++                    "$type": "EditorInspectorComponent",
++                    "Id": 14577732367723710454
++                },
++                "EditorLockComponent": {
++                    "$type": "EditorLockComponent",
++                    "Id": 17611253180927223927
++                },
++                "EditorOnlyEntityComponent": {
++                    "$type": "EditorOnlyEntityComponent",
++                    "Id": 15016123415304724068
++                },
++                "EditorPendingCompositionComponent": {
++                    "$type": "EditorPendingCompositionComponent",
++                    "Id": 3557176575547862442
++                },
++                "EditorVisibilityComponent": {
++                    "$type": "EditorVisibilityComponent",
++                    "Id": 3925482751916608377
++                },
++                "FollowingCameraComponent": {
++                    "$type": "GenericComponentWrapper",
++                    "Id": 6271797807059461472,
++                    "m_template": {
++                        "$type": "FollowingCameraComponent",
++                        "FollowingCameraConfiguration": {
++                            "PredefinedViews": [
++                                "Entity_[13830059181412]",
++                                "Entity_[1653712062937]",
++                                "Instance_[1625571924835]/Instance_[3732164110801]/Entity_[39908985768409]"
++                            ],
++                            "SmoothingLength": 1,
++                            "LockZAxis": true
++                        }
++                    }
++                },
++                "TransformComponent": {
++                    "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                    "Id": 3250434613284802055,
++                    "Parent Entity": "Entity_[1645122128345]"
++                }
++            }
++        },
++        "Entity_[1653712062937]": {
++            "Id": "Entity_[1653712062937]",
++            "Name": "Camera2",
++            "Components": {
++                "Component_[11922351424096862637]": {
++                    "$type": "EditorLockComponent",
++                    "Id": 11922351424096862637
++                },
++                "Component_[12582066944753623123]": {
++                    "$type": "EditorPendingCompositionComponent",
++                    "Id": 12582066944753623123
++                },
++                "Component_[13584978259547424426]": {
++                    "$type": "EditorEntitySortComponent",
++                    "Id": 13584978259547424426
++                },
++                "Component_[14361665421281960258]": {
++                    "$type": "EditorInspectorComponent",
++                    "Id": 14361665421281960258
++                },
++                "Component_[15871011433240104260]": {
++                    "$type": "EditorEntityIconComponent",
++                    "Id": 15871011433240104260
++                },
++                "Component_[18059568838106497295]": {
++                    "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                    "Id": 18059568838106497295,
++                    "Parent Entity": "Entity_[50747416825914]",
++                    "Transform Data": {
++                        "Translate": [
++                            3.871682643890381,
++                            -10.283443450927734,
++                            0.8552020788192749
++                        ],
++                        "Rotate": [
++                            -6.10698127746582,
++                            0.14117184281349182,
++                            -1.3191386461257935
++                        ]
++                    }
++                },
++                "Component_[3807600192390120146]": {
++                    "$type": "EditorDisabledCompositionComponent",
++                    "Id": 3807600192390120146,
++                    "DisabledComponents": {
++                        "Component_[4065892694733744560]": {
++                            "$type": "{CA11DA46-29FF-4083-B5F6-E02C3A8C3A3D} EditorCameraComponent",
++                            "Id": 4065892694733744560,
++                            "Controller": {
++                                "Configuration": {
++                                    "Field of View": 60.00014877319336,
++                                    "MakeActiveViewOnActivation": false
++                                }
++                            }
++                        }
++                    }
++                },
++                "Component_[3846819686874462645]": {
++                    "$type": "EditorVisibilityComponent",
++                    "Id": 3846819686874462645
++                },
++                "Component_[9757437734182996498]": {
++                    "$type": "EditorOnlyEntityComponent",
++                    "Id": 9757437734182996498
++                }
++            }
++        },
+         "Entity_[225843939094875]": {
+             "Id": "Entity_[225843939094875]",
+             "Name": "BarLights",
+@@ -892,12 +1216,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -3.3647828102111816,
+-                            13.38498592376709,
+-                            5.827048301696777
++                            4.069337844848633,
++                            -1.6063919067382813,
++                            2.6550393104553223
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -1205,7 +1529,8 @@
+                         "Entity_[35246912752645]",
+                         "Entity_[31569606194770]",
+                         "Entity_[36252433867101]",
+-                        "Entity_[2475497731666]"
++                        "Entity_[2475497731666]",
++                        "Entity_[1632600041458]"
+                     ]
+                 },
+                 "Component_[14399553065363551825]": {
+@@ -1378,12 +1703,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -9.386574745178223,
+-                            22.704429626464844,
+-                            5.770157337188721
++                            -1.9524540901184082,
++                            7.713051795959473,
++                            2.5981483459472656
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -1473,12 +1798,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -3.8413310050964355,
+-                            19.00349235534668,
+-                            5.825018882751465
++                            3.592789649963379,
++                            4.012114524841309,
++                            2.6530098915100098
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -1567,12 +1892,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -9.374016761779785,
+-                            18.974491119384766,
+-                            5.770606994628906
++                            -1.9398961067199707,
++                            3.9831132888793945,
++                            2.598598003387451
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -1755,12 +2080,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -7.509238243103027,
+-                            18.952228546142578,
+-                            5.798743724822998
++                            -0.07511758804321289,
++                            3.960850715637207,
++                            2.626734733581543
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -1849,12 +2174,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -8.75153923034668,
+-                            12.345247268676758,
+-                            5.460273265838623
++                            -1.3174185752868652,
++                            -2.6461305618286133,
++                            2.288264274597168
+                         ],
+                         "Rotate": [
+                             174.68353271484375,
+@@ -1920,12 +2245,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -7.552240371704102,
+-                            14.09263801574707,
+-                            5.818942546844482
++                            -0.11811971664428711,
++                            -0.8987398147583008,
++                            2.6469335556030273
+                         ],
+                         "Rotate": [
+                             177.4376983642578,
+@@ -2015,12 +2340,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -7.4224371910095215,
+-                            13.071962356567383,
+-                            4.739964962005615
++                            0.011683464050292969,
++                            -1.9194154739379883,
++                            1.5679559707641602
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -2180,12 +2505,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -3.8227672576904297,
+-                            17.110721588134766,
+-                            5.766951560974121
++                            3.6113533973693848,
++                            2.1193437576293945,
++                            2.594942569732666
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -2290,12 +2615,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -9.418913841247559,
+-                            17.11332893371582,
+-                            5.84689474105835
++                            -1.9847931861877441,
++                            2.121951103210449,
++                            2.6748857498168945
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -2385,12 +2710,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -9.33920955657959,
+-                            14.134614944458008,
+-                            5.772234916687012
++                            -1.9050889015197754,
++                            -0.8567628860473633,
++                            2.6002259254455566
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -2480,12 +2805,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -3.747615337371826,
+-                            22.754741668701172,
+-                            5.769272327423096
++                            3.6865053176879883,
++                            7.763363838195801,
++                            2.5972633361816406
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -2574,12 +2899,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -3.7300238609313965,
+-                            20.87110137939453,
+-                            5.8420515060424805
++                            3.704096794128418,
++                            5.87972354888916,
++                            2.6700425148010254
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -2669,12 +2994,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -5.669934272766113,
+-                            14.1102876663208,
+-                            5.813960075378418
++                            1.7641863822937012,
++                            -0.8810901641845703,
++                            2.641951084136963
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -2764,12 +3089,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -5.61542272567749,
+-                            22.723417282104492,
+-                            5.816478252410889
++                            1.8186979293823242,
++                            7.732039451599121,
++                            2.6444692611694336
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -2980,12 +3305,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -4.299577713012695,
+-                            12.188279151916504,
+-                            5.7702836990356445
++                            3.134542942047119,
++                            -2.803098678588867,
++                            2.5982747077941895
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -3054,36 +3379,16 @@
+                     "$type": "EditorEntitySortComponent",
+                     "Id": 6324320679469616880,
+                     "Child Entity Order": [
+-                        "Entity_[2481048322424]",
+-                        "Entity_[2476753355128]",
+-                        "Entity_[2536882897272]",
+-                        "Entity_[2472458387832]",
+-                        "Entity_[2528292962680]",
+-                        "Entity_[2442393616760]",
+                         "Entity_[13823153345901]",
+                         "Entity_[2532587929976]",
+-                        "Entity_[2438098649464]",
+-                        "Entity_[2468163420536]",
+-                        "Entity_[2515408060792]",
+-                        "Entity_[2446688584056]",
+-                        "Entity_[2502523158904]",
+-                        "Entity_[2493933224312]",
+                         "Entity_[2450983551352]",
+-                        "Entity_[2455278518648]",
+-                        "Entity_[2498228191608]",
+-                        "Entity_[2425213747576]",
+-                        "Entity_[2545472831864]",
+                         "Entity_[2523997995384]",
+-                        "Entity_[2463868453240]",
+                         "Entity_[2562652701048]",
+                         "Entity_[2433803682168]",
+-                        "Entity_[2506818126200]",
+-                        "Entity_[2554062766456]",
+-                        "Entity_[2541177864568]",
+-                        "Entity_[2485343289720]",
+                         "Entity_[2571242635640]",
+                         "Entity_[13390322950493]",
+-                        "Entity_[225843939094875]"
++                        "Entity_[225843939094875]",
++                        "Entity_[1641189976050]"
+                     ]
+                 },
+                 "Component_[9664409778166054930]": {
+@@ -3255,12 +3560,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -9.406495094299316,
+-                            20.878055572509766,
+-                            5.769407272338867
++                            -1.972374439239502,
++                            5.8866777420043945,
++                            2.597398281097412
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -3404,12 +3709,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -7.508090972900391,
+-                            14.119365692138672,
+-                            5.770265102386475
++                            -0.07397031784057617,
++                            -0.8720121383666992,
++                            2.5982561111450195
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -3537,12 +3842,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -6.276759624481201,
+-                            12.150472640991211,
+-                            5.766489028930664
++                            1.1573610305786133,
++                            -2.84090518951416,
++                            2.594480037689209
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -3631,12 +3936,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -5.617992877960205,
+-                            18.981884002685547,
+-                            5.801462173461914
++                            1.8161277770996094,
++                            3.990506172180176,
++                            2.629453182220459
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -3726,12 +4031,12 @@
+                 "Component_[7842351237077523143]": {
+                     "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
+                     "Id": 7842351237077523143,
+-                    "Parent Entity": "Entity_[2519703028088]",
++                    "Parent Entity": "Entity_[1641189976050]",
+                     "Transform Data": {
+                         "Translate": [
+-                            -3.739306926727295,
+-                            15.238069534301758,
+-                            5.786924362182617
++                            3.6948137283325195,
++                            0.24669170379638672,
++                            2.614915370941162
+                         ],
+                         "Rotate": [
+                             -180.0,
+@@ -4150,17 +4455,94 @@
+                 }
+             }
+         },
+-        "Entity_[31569606194770]": {
+-            "Id": "Entity_[31569606194770]",
+-            "Name": "Kitchen_GI Island",
++        "Entity_[29609654192601]": {
++            "Id": "Entity_[29609654192601]",
++            "Name": "Camera4",
+             "Components": {
+-                "Component_[12566632783525626804]": {
+-                    "$type": "EditorVisibilityComponent",
+-                    "Id": 12566632783525626804
++                "Component_[11922351424096862637]": {
++                    "$type": "EditorLockComponent",
++                    "Id": 11922351424096862637
+                 },
+-                "Component_[14547108574888701721]": {
+-                    "$type": "EditorBoxShapeComponent",
+-                    "Id": 14547108574888701721,
++                "Component_[12582066944753623123]": {
++                    "$type": "EditorPendingCompositionComponent",
++                    "Id": 12582066944753623123
++                },
++                "Component_[13584978259547424426]": {
++                    "$type": "EditorEntitySortComponent",
++                    "Id": 13584978259547424426
++                },
++                "Component_[14361665421281960258]": {
++                    "$type": "EditorInspectorComponent",
++                    "Id": 14361665421281960258
++                },
++                "Component_[15871011433240104260]": {
++                    "$type": "EditorEntityIconComponent",
++                    "Id": 15871011433240104260
++                },
++                "Component_[18059568838106497295]": {
++                    "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                    "Id": 18059568838106497295,
++                    "Parent Entity": "Entity_[50747416825914]",
++                    "Transform Data": {
++                        "Translate": [
++                            1.3385376930236816,
++                            -1.8775238990783691,
++                            -0.21058058738708496
++                        ],
++                        "Rotate": [
++                            -0.3307972550392151,
++                            5.6962995529174805,
++                            -86.6707763671875
++                        ]
++                    }
++                },
++                "Component_[3807600192390120146]": {
++                    "$type": "EditorDisabledCompositionComponent",
++                    "Id": 3807600192390120146
++                },
++                "Component_[3846819686874462645]": {
++                    "$type": "EditorVisibilityComponent",
++                    "Id": 3846819686874462645
++                },
++                "Component_[4065892694733744560]": {
++                    "$type": "{CA11DA46-29FF-4083-B5F6-E02C3A8C3A3D} EditorCameraComponent",
++                    "Id": 4065892694733744560,
++                    "Controller": {
++                        "Configuration": {
++                            "Field of View": 60.00014877319336,
++                            "MakeActiveViewOnActivation": false
++                        }
++                    }
++                },
++                "Component_[9757437734182996498]": {
++                    "$type": "EditorOnlyEntityComponent",
++                    "Id": 9757437734182996498
++                },
++                "FollowingCameraComponent": {
++                    "$type": "GenericComponentWrapper",
++                    "Id": 12071040434452668016,
++                    "m_template": {
++                        "$type": "FollowingCameraComponent",
++                        "FollowingCameraConfiguration": {
++                            "PredefinedViews": [
++                                "Instance_[1625571924835]/ContainerEntity"
++                            ]
++                        }
++                    }
++                }
++            }
++        },
++        "Entity_[31569606194770]": {
++            "Id": "Entity_[31569606194770]",
++            "Name": "Kitchen_GI Island",
++            "Components": {
++                "Component_[12566632783525626804]": {
++                    "$type": "EditorVisibilityComponent",
++                    "Id": 12566632783525626804
++                },
++                "Component_[14547108574888701721]": {
++                    "$type": "EditorBoxShapeComponent",
++                    "Id": 14547108574888701721,
+                     "BoxShape": {
+                         "Configuration": {
+                             "Dimensions": [
+@@ -4763,7 +5145,9 @@
+                     "$type": "EditorEntitySortComponent",
+                     "Id": 1567426647346820031,
+                     "Child Entity Order": [
+-                        "Entity_[13830059181412]"
++                        "Entity_[13830059181412]",
++                        "Entity_[1653712062937]",
++                        "Entity_[29609654192601]"
+                     ]
+                 },
+                 "Component_[16124588238573395524]": {
+@@ -5184,212 +5568,1523 @@
                  }
              ]
          },
+-        "Instance_[16288957418879]": {
+-            "Source": "Props/Kitchen_Refrigerator_MOD000016/refrigerator.prefab",
 +        "Instance_[1625571924835]": {
 +            "Source": "ROSBot_slamtec.prefab",
-+            "Patches": [
-+                {
-+                    "op": "replace",
+             "Patches": [
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[14233843870799655304]/Parent Entity",
+-                    "value": "../Entity_[4840464675586]"
 +                    "path": "/ContainerEntity/Components/Component_[959982562508610]/Parent Entity",
 +                    "value": "../Entity_[1146574390643]"
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[14233843870799655304]/Transform Data/Translate/0",
+-                    "value": 2.4517295360565186
 +                    "path": "/ContainerEntity/Components/Component_[959982562508610]/Transform Data/Translate/0",
 +                    "value": -0.09591555595397948
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[14233843870799655304]/Transform Data/Translate/1",
+-                    "value": -1.0311198234558103
 +                    "path": "/ContainerEntity/Components/Component_[959982562508610]/Transform Data/Translate/1",
 +                    "value": 6.928430557250977
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[14233843870799655304]/Transform Data/Translate/2",
+-                    "value": 0.027231991291046143
 +                    "path": "/ContainerEntity/Components/Component_[959982562508610]/Transform Data/Translate/2",
 +                    "value": -0.015290498733520508
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[14233843870799655304]/Transform Data/Rotate/2",
+-                    "value": -89.99994659423828
+-                },
+-                {
+-                    "op": "add",
+-                    "path": "/ContainerEntity/Components/Component_[4566248168342172836]/Child Entity Order/0",
+-                    "value": "Entity_[3094147965657]"
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[3324695883526924062]/m_template/VehicleConfiguration/AxlesConfigurations/1/IsSteering",
 +                    "value": false
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/Entities/Entity_[3094147965657]/Components/Component_[15809170977647956888]/ShapeConfiguration/PhysicsAsset/Asset/assetHint",
+-                    "value": "props/kitchen_refrigerator_mod000016/refrigerator.fbx.pxmesh"
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[3324695883526924062]/m_template/VehicleConfiguration/Track",
 +                    "value": 0.3499999940395355
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/Entities/Entity_[3094147965657]/Components/Component_[15809170977647956888]/ShapeConfiguration/PhysicsAsset/Configuration/PhysicsAsset/assetHint",
+-                    "value": "props/kitchen_refrigerator_mod000016/refrigerator.fbx.pxmesh"
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[3324695883526924062]/m_template/VehicleConfiguration/Wheelbase",
 +                    "value": 0.17000000178813934
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/Entities/Entity_[3094147965657]/Components/Component_[5364438418896680112]/Controller/Configuration/ModelAsset/assetHint",
+-                    "value": "props/kitchen_refrigerator_mod000016/refrigerator.fbx.azmodel"
+-                }
+-            ]
+-        },
+-        "Instance_[17072743681248]": {
+-            "Source": "Props/Potted_Plant_TRBP000002/potted_plant.prefab",
+-            "Patches": [
+-                {
+-                    "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[14055205167778081687]/Parent Entity",
+-                    "value": "../Entity_[4840464675586]"
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/0",
 +                    "value": "Entity_[5558838905569]"
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[14055205167778081687]/Transform Data/Translate/0",
+-                    "value": 4.3073601722717285
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/1",
 +                    "value": "Entity_[7503544881850]"
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[14055205167778081687]/Transform Data/Translate/1",
+-                    "value": 5.059457778930664
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/2",
 +                    "value": "Entity_[7494954947258]"
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[14055205167778081687]/Transform Data/Translate/2",
+-                    "value": -0.020574495196342468
+-                },
+-                {
+-                    "op": "add",
+-                    "path": "/ContainerEntity/Components/Component_[17798260519157669022]/Child Entity Order/0",
+-                    "value": "Entity_[5125667496665]"
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/3",
 +                    "value": "Entity_[7525019718330]"
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/Entities/Entity_[5125667496665]/Components/Component_[1137343327620538049]/Controller/Configuration/ModelAsset/assetHint",
+-                    "value": "props/potted_plant_trbp000002/potted_plant.fbx.azmodel"
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/4",
 +                    "value": "Entity_[7499249914554]"
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/Entities/Entity_[5125667496665]/Components/Component_[12282705548812581643]/ShapeConfiguration/PhysicsAsset/Asset/assetHint",
+-                    "value": "props/potted_plant_trbp000002/potted_plant.fbx.pxmesh"
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/5",
 +                    "value": "Entity_[7486365012666]"
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/Entities/Entity_[5125667496665]/Components/Component_[12282705548812581643]/ShapeConfiguration/PhysicsAsset/Configuration/PhysicsAsset/assetHint",
+-                    "value": "props/potted_plant_trbp000002/potted_plant.fbx.pxmesh"
+-                }
+-            ]
+-        },
+-        "Instance_[19580656017469]": {
+-            "Source": "Props/Sunglasses_TRB000046/sunglasses.prefab",
+-            "Patches": [
+-                {
+-                    "op": "add",
+-                    "path": "/ContainerEntity/Components/Component_[15660598357975206414]/Child Entity Order/0",
+-                    "value": "Entity_[371209903870]"
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/6",
 +                    "value": "Entity_[7482070045370]"
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[5974869204983609880]/Parent Entity",
+-                    "value": "../Entity_[4840464675586]"
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/7",
 +                    "value": "Entity_[7512134816442]"
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[5974869204983609880]/Transform Data/Translate/0",
+-                    "value": 0.24591219425201416
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/8",
 +                    "value": "Entity_[2276249823909]"
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[5974869204983609880]/Transform Data/Translate/1",
+-                    "value": 8.710866928100586
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/9",
 +                    "value": "Entity_[1655118118701]"
-+                },
-+                {
+                 },
+                 {
+-                    "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[5974869204983609880]/Transform Data/Translate/2",
+-                    "value": 0.7527957558631897
 +                    "op": "add",
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/10",
 +                    "value": "Entity_[2840956269491]"
-+                },
-+                {
+                 },
+                 {
+-                    "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[5974869204983609880]/Transform Data/Rotate/2",
+-                    "value": 26.589183807373047
 +                    "op": "add",
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/11",
 +                    "value": "Entity_[3606091082346]"
-+                },
-+                {
+                 },
+                 {
+-                    "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[5974869204983609880]/Transform Data/UniformScale",
+-                    "value": 0.009999999776482582
++                    "op": "add",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/Component_[6563269519356188309]/Child Entity Order/12",
++                    "value": "Entity_[39908985768409]"
+                 },
+                 {
+-                    "op": "replace",
+-                    "path": "/Entities/Entity_[371209903870]/Components/Component_[14603146083399874962]/Controller/Configuration/ModelAsset/assetHint",
+-                    "value": "props/sunglasses_trb000046/sunglasses.fbx.azmodel"
 +                    "op": "add",
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[7507839849146]/Components/ROS2OdometrySensorComponent",
 +                    "value": {
@@ -286,39 +1267,107 @@ index 84d0bfa..19882a5 100644
 +                            }
 +                        }
 +                    }
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/Entities/Entity_[371209903870]/Components/Component_[6136831406637616568]/ShapeConfiguration/PhysicsAsset/Asset/assetHint",
+-                    "value": "props/sunglasses_trb000046/sunglasses.fbx.pxmesh"
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Translate/0",
 +                    "value": -0.9476395845413208
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/Entities/Entity_[371209903870]/Components/Component_[6136831406637616568]/ShapeConfiguration/PhysicsAsset/Configuration/PhysicsAsset/assetHint",
+-                    "value": "props/sunglasses_trb000046/sunglasses.fbx.pxmesh"
+-                }
+-            ]
+-        },
+-        "Instance_[20360635000366]": {
+-            "Source": "Props/Table_Lamp_B07HKF28CS/table_lamp.prefab",
+-            "Patches": [
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Translate/1",
 +                    "value": 0.7084693908691406
 +                },
-+                {
-+                    "op": "replace",
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[12503009786186699069]/Parent Entity",
+-                    "value": "../Entity_[4840464675586]"
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Translate/2",
 +                    "value": 1.4535069465637207
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[12503009786186699069]/Transform Data/Translate/0",
+-                    "value": 0.3169281780719757
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Rotate/0",
 +                    "value": 35.423553466796875
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[12503009786186699069]/Transform Data/Translate/1",
+-                    "value": 4.927570819854736
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Rotate/1",
 +                    "value": 37.78596115112305
-+                },
-+                {
-+                    "op": "replace",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[12503009786186699069]/Transform Data/Translate/2",
+-                    "value": 0.5882886052131653
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[6043040033160946649]/Transform Data/Rotate/2",
 +                    "value": -139.2576904296875
-+                },
-+                {
-+                    "op": "add",
+                 },
+                 {
+                     "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[12503009786186699069]/Transform Data/Rotate/2",
+-                    "value": 29.808616638183594
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[8286674845726845305]/DisabledComponents",
++                    "value": {
++                        "Component_[16056351394850261418]": {
++                            "$type": "{CA11DA46-29FF-4083-B5F6-E02C3A8C3A3D} EditorCameraComponent",
++                            "Id": 16056351394850261418,
++                            "Controller": {
++                                "Configuration": {
++                                    "Orthographic": false,
++                                    "Orthographic Half Width": 5.0,
++                                    "Field of View": 60.0,
++                                    "Near Clip Plane Distance": 0.20000000298023224,
++                                    "Far Clip Plane Distance": 1024.0,
++                                    "SpecifyDimensions": false,
++                                    "FrustumWidth": 256.0,
++                                    "FrustumHeight": 256.0,
++                                    "MakeActiveViewOnActivation": true,
++                                    "RenderToTexture": {
++                                        "assetId": {
++                                            "guid": "{00000000-0000-0000-0000-000000000000}",
++                                            "subId": 0
++                                        },
++                                        "loadBehavior": "QueueLoad",
++                                        "assetHint": ""
++                                    },
++                                    "PipelineTemplate": "CameraPipeline"
++                                }
++                            },
++                            "FrustumLengthPercent": 1.0,
++                            "FrustumDrawColor": [
++                                1.0,
++                                1.0,
++                                0.0,
++                                0.8999999761581421
++                            ]
++                        }
++                    }
+                 },
+                 {
+-                    "op": "replace",
+-                    "path": "/ContainerEntity/Components/Component_[12503009786186699069]/Transform Data/UniformScale",
+-                    "value": 0.10000000149011612
++                    "op": "remove",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[969892482106]/Components/Component_[16056351394850261418]"
+                 },
+                 {
+                     "op": "add",
+-                    "path": "/ContainerEntity/Components/Component_[14990246215705864593]/Child Entity Order/0",
+-                    "value": "Entity_[555893497598]"
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[5558838905569]",
 +                    "value": {
 +                        "Id": "Entity_[5558838905569]",
@@ -467,8 +1516,11 @@ index 84d0bfa..19882a5 100644
 +                        },
 +                        "IsRuntimeActive": true
 +                    }
-+                },
-+                {
+                 },
+                 {
+-                    "op": "replace",
+-                    "path": "/Entities/Entity_[555893497598]/Components/Component_[15453850067030571079]/Controller/Configuration/ModelAsset/assetHint",
+-                    "value": "props/table_lamp_b07hkf28cs/table_lamp.fbx.azmodel"
 +                    "op": "add",
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[3649040755306]",
 +                    "value": {
@@ -554,8 +1606,11 @@ index 84d0bfa..19882a5 100644
 +                        },
 +                        "IsRuntimeActive": true
 +                    }
-+                },
-+                {
+                 },
+                 {
+-                    "op": "replace",
+-                    "path": "/Entities/Entity_[555893497598]/Components/Component_[8955785890418585536]/ShapeConfiguration/PhysicsAsset/Asset/assetHint",
+-                    "value": "props/table_lamp_b07hkf28cs/table_lamp.fbx.pxmesh"
 +                    "op": "add",
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[3606091082346]",
 +                    "value": {
@@ -639,8 +1694,15 @@ index 84d0bfa..19882a5 100644
 +                        },
 +                        "IsRuntimeActive": true
 +                    }
-+                },
-+                {
+                 },
+                 {
+-                    "op": "replace",
+-                    "path": "/Entities/Entity_[555893497598]/Components/Component_[8955785890418585536]/ShapeConfiguration/PhysicsAsset/Configuration/PhysicsAsset/assetHint",
+-                    "value": "props/table_lamp_b07hkf28cs/table_lamp.fbx.pxmesh"
+-                }
+-            ]
+-        },
+-        "Instance_[21006857280953]": {
 +                    "op": "add",
 +                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[3627565918826]",
 +                    "value": {
@@ -1305,13 +2367,335 @@ index 84d0bfa..19882a5 100644
 +                        },
 +                        "IsRuntimeActive": true
 +                    }
++                },
++                {
++                    "op": "add",
++                    "path": "/Instances/Instance_[3732164110801]/Entities/Entity_[39908985768409]",
++                    "value": {
++                        "Id": "Entity_[39908985768409]",
++                        "Name": "follow_cam",
++                        "Components": {
++                            "EditorDisabledCompositionComponent": {
++                                "$type": "EditorDisabledCompositionComponent",
++                                "Id": 17702674647140667880,
++                                "DisabledComponents": {
++                                    "EditorCameraComponent": {
++                                        "$type": "{CA11DA46-29FF-4083-B5F6-E02C3A8C3A3D} EditorCameraComponent",
++                                        "Id": 5906721686067492932,
++                                        "Controller": {
++                                            "Configuration": {
++                                                "Orthographic": false,
++                                                "Orthographic Half Width": 5.0,
++                                                "Field of View": 60.0,
++                                                "Near Clip Plane Distance": 0.20000000298023224,
++                                                "Far Clip Plane Distance": 1024.0,
++                                                "SpecifyDimensions": false,
++                                                "FrustumWidth": 256.0,
++                                                "FrustumHeight": 256.0,
++                                                "MakeActiveViewOnActivation": true,
++                                                "RenderToTexture": {
++                                                    "assetId": {
++                                                        "guid": "{00000000-0000-0000-0000-000000000000}",
++                                                        "subId": 0
++                                                    },
++                                                    "loadBehavior": "QueueLoad",
++                                                    "assetHint": ""
++                                                },
++                                                "PipelineTemplate": "CameraPipeline"
++                                            }
++                                        },
++                                        "FrustumLengthPercent": 1.0,
++                                        "FrustumDrawColor": [
++                                            1.0,
++                                            1.0,
++                                            0.0,
++                                            0.8999999761581421
++                                        ]
++                                    }
++                                }
++                            },
++                            "EditorEntityIconComponent": {
++                                "$type": "EditorEntityIconComponent",
++                                "Id": 13301405947989851878,
++                                "EntityIconAssetId": {
++                                    "guid": "{00000000-0000-0000-0000-000000000000}",
++                                    "subId": 0
++                                }
++                            },
++                            "EditorEntitySortComponent": {
++                                "$type": "EditorEntitySortComponent",
++                                "Id": 8100952012759876657,
++                                "Child Entity Order": []
++                            },
++                            "EditorInspectorComponent": {
++                                "$type": "EditorInspectorComponent",
++                                "Id": 17008443713468223178,
++                                "ComponentOrderEntryArray": []
++                            },
++                            "EditorLockComponent": {
++                                "$type": "EditorLockComponent",
++                                "Id": 13034726887681891110,
++                                "Locked": false
++                            },
++                            "EditorOnlyEntityComponent": {
++                                "$type": "EditorOnlyEntityComponent",
++                                "Id": 1804139783438943095,
++                                "IsEditorOnly": false
++                            },
++                            "EditorPendingCompositionComponent": {
++                                "$type": "EditorPendingCompositionComponent",
++                                "Id": 5936707679197691015,
++                                "PendingComponents": []
++                            },
++                            "EditorVisibilityComponent": {
++                                "$type": "EditorVisibilityComponent",
++                                "Id": 16844358637164434272,
++                                "VisibilityFlag": true
++                            },
++                            "TransformComponent": {
++                                "$type": "{27F1E1A1-8D9D-4C3B-BD3A-AFB9762449C0} TransformComponent",
++                                "Id": 1079003474927186519,
++                                "Parent Entity": "Entity_[7507839849146]",
++                                "Transform Data": {
++                                    "Translate": [
++                                        -1.3996591567993164,
++                                        -0.052973270416259766,
++                                        0.3161379396915436
++                                    ],
++                                    "Rotate": [
++                                        -0.33079445362091064,
++                                        5.696292400360107,
++                                        -86.67078399658203
++                                    ],
++                                    "Scale": [
++                                        1.0,
++                                        1.0,
++                                        1.0
++                                    ],
++                                    "Locked": false,
++                                    "UniformScale": 1.0
++                                },
++                                "Parent Activation Transform Mode": 0,
++                                "IsStatic": false,
++                                "InterpolatePosition": 0,
++                                "InterpolateRotation": 0
++                            }
++                        },
++                        "IsRuntimeActive": true
++                    }
 +                }
 +            ]
 +        },
-         "Instance_[16288957418879]": {
-             "Source": "Props/Kitchen_Refrigerator_MOD000016/refrigerator.prefab",
++        "Instance_[16288957418879]": {
++            "Source": "Props/Kitchen_Refrigerator_MOD000016/refrigerator.prefab",
++            "Patches": [
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[14233843870799655304]/Parent Entity",
++                    "value": "../Entity_[4840464675586]"
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[14233843870799655304]/Transform Data/Translate/0",
++                    "value": 2.4517295360565186
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[14233843870799655304]/Transform Data/Translate/1",
++                    "value": -1.0311198234558103
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[14233843870799655304]/Transform Data/Translate/2",
++                    "value": 0.027231991291046143
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[14233843870799655304]/Transform Data/Rotate/2",
++                    "value": -89.99994659423828
++                },
++                {
++                    "op": "add",
++                    "path": "/ContainerEntity/Components/Component_[4566248168342172836]/Child Entity Order/0",
++                    "value": "Entity_[3094147965657]"
++                },
++                {
++                    "op": "replace",
++                    "path": "/Entities/Entity_[3094147965657]/Components/Component_[15809170977647956888]/ShapeConfiguration/PhysicsAsset/Asset/assetHint",
++                    "value": "props/kitchen_refrigerator_mod000016/refrigerator.fbx.pxmesh"
++                },
++                {
++                    "op": "replace",
++                    "path": "/Entities/Entity_[3094147965657]/Components/Component_[15809170977647956888]/ShapeConfiguration/PhysicsAsset/Configuration/PhysicsAsset/assetHint",
++                    "value": "props/kitchen_refrigerator_mod000016/refrigerator.fbx.pxmesh"
++                },
++                {
++                    "op": "replace",
++                    "path": "/Entities/Entity_[3094147965657]/Components/Component_[5364438418896680112]/Controller/Configuration/ModelAsset/assetHint",
++                    "value": "props/kitchen_refrigerator_mod000016/refrigerator.fbx.azmodel"
++                }
++            ]
++        },
++        "Instance_[17072743681248]": {
++            "Source": "Props/Potted_Plant_TRBP000002/potted_plant.prefab",
++            "Patches": [
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[14055205167778081687]/Parent Entity",
++                    "value": "../Entity_[4840464675586]"
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[14055205167778081687]/Transform Data/Translate/0",
++                    "value": 4.3073601722717285
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[14055205167778081687]/Transform Data/Translate/1",
++                    "value": 5.059457778930664
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[14055205167778081687]/Transform Data/Translate/2",
++                    "value": -0.020574495196342468
++                },
++                {
++                    "op": "add",
++                    "path": "/ContainerEntity/Components/Component_[17798260519157669022]/Child Entity Order/0",
++                    "value": "Entity_[5125667496665]"
++                },
++                {
++                    "op": "replace",
++                    "path": "/Entities/Entity_[5125667496665]/Components/Component_[1137343327620538049]/Controller/Configuration/ModelAsset/assetHint",
++                    "value": "props/potted_plant_trbp000002/potted_plant.fbx.azmodel"
++                },
++                {
++                    "op": "replace",
++                    "path": "/Entities/Entity_[5125667496665]/Components/Component_[12282705548812581643]/ShapeConfiguration/PhysicsAsset/Asset/assetHint",
++                    "value": "props/potted_plant_trbp000002/potted_plant.fbx.pxmesh"
++                },
++                {
++                    "op": "replace",
++                    "path": "/Entities/Entity_[5125667496665]/Components/Component_[12282705548812581643]/ShapeConfiguration/PhysicsAsset/Configuration/PhysicsAsset/assetHint",
++                    "value": "props/potted_plant_trbp000002/potted_plant.fbx.pxmesh"
++                }
++            ]
++        },
++        "Instance_[19580656017469]": {
++            "Source": "Props/Sunglasses_TRB000046/sunglasses.prefab",
++            "Patches": [
++                {
++                    "op": "add",
++                    "path": "/ContainerEntity/Components/Component_[15660598357975206414]/Child Entity Order/0",
++                    "value": "Entity_[371209903870]"
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[5974869204983609880]/Parent Entity",
++                    "value": "../Entity_[4840464675586]"
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[5974869204983609880]/Transform Data/Translate/0",
++                    "value": 0.24591219425201416
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[5974869204983609880]/Transform Data/Translate/1",
++                    "value": 8.710866928100586
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[5974869204983609880]/Transform Data/Translate/2",
++                    "value": 0.7527957558631897
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[5974869204983609880]/Transform Data/Rotate/2",
++                    "value": 26.589183807373047
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[5974869204983609880]/Transform Data/UniformScale",
++                    "value": 0.009999999776482582
++                },
++                {
++                    "op": "replace",
++                    "path": "/Entities/Entity_[371209903870]/Components/Component_[14603146083399874962]/Controller/Configuration/ModelAsset/assetHint",
++                    "value": "props/sunglasses_trb000046/sunglasses.fbx.azmodel"
++                },
++                {
++                    "op": "replace",
++                    "path": "/Entities/Entity_[371209903870]/Components/Component_[6136831406637616568]/ShapeConfiguration/PhysicsAsset/Asset/assetHint",
++                    "value": "props/sunglasses_trb000046/sunglasses.fbx.pxmesh"
++                },
++                {
++                    "op": "replace",
++                    "path": "/Entities/Entity_[371209903870]/Components/Component_[6136831406637616568]/ShapeConfiguration/PhysicsAsset/Configuration/PhysicsAsset/assetHint",
++                    "value": "props/sunglasses_trb000046/sunglasses.fbx.pxmesh"
++                }
++            ]
++        },
++        "Instance_[20360635000366]": {
++            "Source": "Props/Table_Lamp_B07HKF28CS/table_lamp.prefab",
++            "Patches": [
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[12503009786186699069]/Parent Entity",
++                    "value": "../Entity_[4840464675586]"
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[12503009786186699069]/Transform Data/Translate/0",
++                    "value": 0.3169281780719757
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[12503009786186699069]/Transform Data/Translate/1",
++                    "value": 4.927570819854736
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[12503009786186699069]/Transform Data/Translate/2",
++                    "value": 0.5882886052131653
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[12503009786186699069]/Transform Data/Rotate/2",
++                    "value": 29.808616638183594
++                },
++                {
++                    "op": "replace",
++                    "path": "/ContainerEntity/Components/Component_[12503009786186699069]/Transform Data/UniformScale",
++                    "value": 0.10000000149011612
++                },
++                {
++                    "op": "add",
++                    "path": "/ContainerEntity/Components/Component_[14990246215705864593]/Child Entity Order/0",
++                    "value": "Entity_[555893497598]"
++                },
++                {
++                    "op": "replace",
++                    "path": "/Entities/Entity_[555893497598]/Components/Component_[15453850067030571079]/Controller/Configuration/ModelAsset/assetHint",
++                    "value": "props/table_lamp_b07hkf28cs/table_lamp.fbx.azmodel"
++                },
++                {
++                    "op": "replace",
++                    "path": "/Entities/Entity_[555893497598]/Components/Component_[8955785890418585536]/ShapeConfiguration/PhysicsAsset/Asset/assetHint",
++                    "value": "props/table_lamp_b07hkf28cs/table_lamp.fbx.pxmesh"
++                },
++                {
++                    "op": "replace",
++                    "path": "/Entities/Entity_[555893497598]/Components/Component_[8955785890418585536]/ShapeConfiguration/PhysicsAsset/Configuration/PhysicsAsset/assetHint",
++                    "value": "props/table_lamp_b07hkf28cs/table_lamp.fbx.pxmesh"
++                }
++            ]
++        },
++        "Instance_[21006857280953]": {
+             "Source": "Props/Chair_B082VM23MF/chair.prefab",
              "Patches": [
-@@ -5809,299 +6963,6 @@
+                 {
+@@ -5809,299 +7504,6 @@
                  }
              ]
          },
@@ -1611,6 +2995,18 @@ index 84d0bfa..19882a5 100644
          "Instance_[28120923599882]": {
              "Source": "Props/Office_Desk_Chair_B082BLFMRC/office_desk_chair.prefab",
              "Patches": [
+diff --git a/Registry/physxsystemconfiguration.setreg b/Registry/physxsystemconfiguration.setreg
+index 53ee8ca..707875a 100755
+--- a/Registry/physxsystemconfiguration.setreg
++++ b/Registry/physxsystemconfiguration.setreg
+@@ -3,6 +3,7 @@
+         "Gems": {
+             "PhysX5": {
+                 "PhysXSystemConfiguration": {
++                    "MaxTimestep": 0.05000000074505806,
+                     "CollisionConfig": {
+                         "Layers": {
+                             "LayerNames": [
 diff --git a/project.json b/project.json
 index 94e8b34..e961082 100644
 --- a/project.json
