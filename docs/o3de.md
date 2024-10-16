@@ -4,7 +4,9 @@
 
 The demo is provided as a binary package for Ubuntu 24.04 with ROS 2 Jazzy and Ubuntu 22.04 with ROS 2 Humble, ensuring quick and easy setup. The binary package is the recommended method to run the demo. The source code and a Dockerfile are also available for those who prefer to build the project themselves or run it in a containerized environment.
 
-The project was tested on Ubuntu 22.04 with ROS 2 Humble and Ubuntu 24.04 with ROS 2 Jazzy. Windows platform is not supported. 
+The project was tested on Ubuntu 22.04 with ROS 2 Humble and Ubuntu 24.04 with ROS 2 Jazzy. 
+
+> **Note:** This demo is **not supported on Windows!**
 
 ## Building using docker environment
 
@@ -47,7 +49,7 @@ The simulation environment from [RobotVacuumSample demo](https://github.com/o3de
 
 > **_NOTE:_** The [Project](../Project) folder in this repository, which is a git submodule, will be set in a *dirty* git state due to changes applied by the patch.
 
-Please follow the instructions below to build the project. The instructions are based on a common base folder: $DEMO_BASE (absolute path). Install [ROS 2 first](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html) and `git-lfs` package to pull the binary files.
+Please follow the instructions below to build the project. The instructions are based on a common base folder: $DEMO_BASE (absolute path). Install [ROS 2 first](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html) and `git-lfs` package to pull the binary files. Install all `ROS 2` packages that are [required by O3DE](https://docs.o3de.org/docs/user-guide/interactivity/robotics/project-configuration/).
 
 1. Install `git-lfs` package and pull the codebase.
 ```bash
