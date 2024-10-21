@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>rosbot_xl_whoami</name>
-  <version>1.0.0</version>
-  <description>Package sharing information about the husarion robot.</description>
+  <name>led_strip</name>
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
   <maintainer email="wiktoria.siekierska@robotec.ai">wsiekierska</maintainer>
-  <license>Apache-2.0</license>
+  <license>TODO: License declaration</license>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
