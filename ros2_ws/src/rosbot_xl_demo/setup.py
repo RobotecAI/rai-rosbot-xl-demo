@@ -25,6 +25,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'robot_spawner = rosbot_xl_demo.robot_spawner:main',
+            'navigate_to_pose = rosbot_xl_demo.navigate_to_pose:main',
         ],
     },
 )
