@@ -8,7 +8,6 @@ The demo can be successfully run on any robot equipped with the same set of sens
 
 The following packages are available in this repository:
 - `led_strip` ROS 2 package that allows **RAI** to use lights of the Husarion ROSBot XL robot
-- `rosbot_xl_whoami` ROS 2 package that allows **RAI** to learn about the Husarion ROSBot XL robot and its features
 - `RAIROSBotXLDemo` O3DE project for simulating Husarion ROSBot XL robot
 
 `RAIROSBotXLDemo` is based on the [RobotVacuumSample demo](https://github.com/o3de/RobotVacuumSample) that was a part of the O3DE showcase at ROSCon conference in 2022. The O3DE demo is provided as a binary package for Ubuntu 24.04 with ROS 2 Jazzy and Ubuntu 22.04 with ROS 2 Humble, ensuring quick and easy setup. The binary package is the recommended method to run the demo. The source code and a Dockerfile are also available for those who prefer to build the project themselves or run it in a containerized environment. Please see the detailed demo [description](./docs/o3de.md) for more details.
