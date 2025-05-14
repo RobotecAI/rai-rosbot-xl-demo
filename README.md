@@ -1,6 +1,6 @@
 # Autonomous Mobile Robot Demo
 
-This repository is designed to demonstrate how the [RAI](https://github.com/RobotecAI/rai) framework interacts with the [ROSbot XL](https://husarion.com/manuals/rosbot-xl/), an autonomous mobile robot platform developed by [Husarion](https://husarion.com). The Husarion ROSBot XL provides a versatile and powerful platform for autonomous navigation, and this project showcases how RAI can be utilized to control and interface with the robot's sensors, actuators, and other onboard systems to achieve autonomous operation controlled by LLM.
+This repository is designed to demonstrate how the [RAI](https://github.com/RobotecAI/rai) framework interacts with the [ROSbot XL](https://husarion.com/manuals/rosbot-xl/), an autonomous mobile robot platform developed by [Husarion](https://husarion.com). The Husarion ROSBot XL provides a versatile and powerful platform for autonomous navigation, and this project showcases how RAI can be utilized to control and interface with the robot's sensors, actuators, and other onboard systems to achieve autonomous operation controlled by LLM. Details can be found in [Husarion Robot XL demo](https://robotecai.github.io/rai/demos/rosbot_xl/) page.
 
 The demo can be successfully run on any robot equipped with the same set of sensors and controlled using ROS 2 messaging protocols. Additionally, the same behavior can be reproduced in the simulation developed using [O3DE](https://www.o3de.org/) game engine. 
 
