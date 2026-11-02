@@ -1,0 +1,7 @@
+RAI ROSbot XL Demo
+Copyright 2024-2026 Robotec.ai sp. z o.o.
+
+This project patches and builds the O3DE RobotVacuumSample project
+(https://github.com/o3de/RobotVacuumSample), Copyright (c) Contributors to the Open 3D Engine
+Project, licensed under Apache-2.0 OR MIT; patches/updates.patch contains modifications to that
+project.
