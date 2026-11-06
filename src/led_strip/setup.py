@@ -29,7 +29,7 @@ setup(
     maintainer="wsiekierska",
     maintainer_email="wiktoria.siekierska@robotec.ai",
     description="TODO: Package description",
-    license="TODO: License declaration",
+    license="Apache-2.0",
     tests_require=["pytest"],
     entry_points={
         "console_scripts": ["led_strip_node = led_strip.led_strip_node:main"],
